@@ -96,7 +96,6 @@ end
 function mean_acc = evaluate_color_hist(imds, cv)
     imds.ReadFcn = @readHsvHist;
     features = cell2mat(imds.readall());
-    % Restore safe reader
     imds.ReadFcn = @safeImread;
 
     accuracies = zeros(cv.NumTestSets, 1);
@@ -113,8 +112,6 @@ function mean_acc = evaluate_color_hist(imds, cv)
         accuracies(i) = sum(YPred == YTest) / length(YTest);
     end
     mean_acc = mean(accuracies);
-
-    % === 追加箇所 : Method 1 の失敗画像を表示 ===
     visualize_mistakes(imds, YTest, YPred, testIdx, 'Method1_ColorKNN');
 end
 
@@ -161,8 +158,6 @@ function mean_acc = evaluate_bof(imds, cv)
         accuracies(i) = sum(YPred == YTest) / length(YTest);
     end
     mean_acc = mean(accuracies);
-
-    % === 追加箇所 : Method 2 の失敗画像を表示 ===
     visualize_mistakes(imds, YTest, YPred, testIdx, 'Method2_BoF');
 end
 
@@ -176,25 +171,54 @@ function I = safeImread(filename)
     end
 end
 
+% === Custom Extractor using provided createRandomPoints ===
 function [features, metrics] = denseSurfExtractor(I)
     try
         I = ensureRGB(I);
         I_gray = rgb2gray(I);
+        
+        % Use the requested custom function
         points = createRandomPoints(I_gray, 1000);
+        
         [features, validPoints] = extractFeatures(I_gray, points);
-        if isa(validPoints, 'SURFPoints') || isa(validPoints, 'MSERRegions') || isa(validPoints, 'cornerPoints')
-            metrics = validPoints.Metric;
+        
+        % FIX: Handle empty features to prevent bagOfFeatures validation error
+        if isempty(features)
+            features = zeros(1, 64, 'single');
+            metrics = 0;
         else
-            metrics = ones(size(features, 1), 1, 'single');
+            if isa(validPoints, 'SURFPoints') || isa(validPoints, 'MSERRegions') || isa(validPoints, 'cornerPoints')
+                metrics = validPoints.Metric;
+            else
+                metrics = ones(size(features, 1), 1, 'single');
+            end
         end
     catch
-        features = [];
-        metrics = [];
+        % Fallback for corrupt images
+        features = zeros(1, 64, 'single');
+        metrics = 0;
+    end
+end
+
+% === Requested Function ===
+function PT = createRandomPoints(I, num)
+    [sy, sx] = size(I);
+    sz = [sx sy];
+    for i = 1:num
+        s = 0;
+        while s < 1.6
+            s = randn() * 3 + 3;
+        end
+        p = ceil((sz - ceil(s) * 2) .* rand(1, 2) + ceil(s));
+        if i == 1
+            PT = [SURFPoints(p, 'Scale', s)];
+        else
+            PT = [PT; SURFPoints(p, 'Scale', s)];
+        end
     end
 end
 
 function mean_acc = evaluate_dcnn(imds, cv, net, layer)
-    % Method 3 : Linear SVM
     inputSize = net.Layers(1).InputSize;
     imds.ReadFcn = @(f) readForDCNN(f, inputSize);
 
@@ -216,13 +240,10 @@ function mean_acc = evaluate_dcnn(imds, cv, net, layer)
         accuracies(i) = sum(YPred == YTest) / length(YTest);
     end
     mean_acc = mean(accuracies);
-
-    % Visualization for Linear SVM (Method 3)
     visualize_mistakes(imds, YTest, YPred, testIdx, 'Method3_DCNN_Linear');
 end
 
 function mean_acc = evaluate_dcnn_nonlinear(imds, cv, net, layer)
-    % Method 4 : Non-linear SVM(RBF)
     inputSize = net.Layers(1).InputSize;
     imds.ReadFcn = @(f) readForDCNN(f, inputSize);
 
@@ -244,8 +265,6 @@ function mean_acc = evaluate_dcnn_nonlinear(imds, cv, net, layer)
         accuracies(i) = sum(YPred == YTest) / length(YTest);
     end
     mean_acc = mean(accuracies);
-
-    % Visualization for Non-linear SVM (Method 4)
     visualize_mistakes(imds, YTest, YPred, testIdx, 'Method4_DCNN_RBF');
 end
 
@@ -273,7 +292,6 @@ function visualize_mistakes(imds, YTest, YPred, testIdx, methodTag)
         montage(thumbnails, 'ThumbnailSize', [150 150]);
         title(sprintf('%s Mistakes (Total: %d)', methodTag, length(wrongFiles)));
         
-        % Optional : Save result
         timestamp = datestr(now, 'yyyyMMdd_HHmmss');
         saveas(gcf, sprintf('ass1_Mistakes_%s_%s.png', methodTag, timestamp));
     else

@@ -1,0 +1,249 @@
+1. ran python3 ass_preparation0_download_data.py
+1.1 ran python3 ass2_find_interesting.py
+2. formatted the number of images in each folder related to the assignment 1.
+3. as a result, the structure of directory became like this:
+
+.
+├── ass1_main.m             : matlab script for assignment 1
+├── ass2_generate_html.py   : python script for assignment 2
+├── ass2_main.m             : matlab script for assignment 2
+├── ass_preparation0_download_data.py : python script for downloading images
+├── assignment.md           : assignment instructions for my reference
+├── bgimg                   : background images to add noises
+├── createRandomPoints.m    : matlab script for creating random points
+├── img                     : images
+│   ├── fried chicken : 199 images
+│   ├── chihuahua : 199 images
+│   ├── apple : 400 images
+│   ├── bus : 200 images
+│   ├── kiwi : 400 images
+│   ├── muffin : 199 images
+│   ├── poodle : 199 images
+│   └── truck : 200 images
+
+4. ran the ass1_main.m in matlab, and got the following result:
+---
+
+========================================
+Starting Experiment: chihuahua vs muffin
+========================================
+Using 194 images per class (Total: 388)
+
+--- Method 1: Color Histogram + KNN ---
+Visualizing misclassified images (Method1_ColorKNN)...
+Accuracy: 83.77%
+
+--- Method 2: Bag of Features (Dense) + Nonlinear SVM ---
+Creating Bag of Features...
+
+Creating Bag-Of-Features.
+-------------------------
+* Image category 1: chihuahua
+* Image category 2: muffin
+* Extracting features using a custom feature extraction function: denseSurfExtractor.
+
+* Extracting features from 388 images...done. Extracted 388000 features.
+
+* Keeping 100 percent of the strongest features from each category.
+
+* Creating a 1000 word visual vocabulary.
+* Number of levels: 1
+* Branching factor: 1000
+* Number of clustering steps: 1
+
+* [Step 1/1] Clustering vocabulary level 1.
+* Number of features          : 388000
+* Number of clusters          : 1000
+* Initializing cluster centers...100.00%.
+* Clustering...completed 17/100 iterations (~1.30 seconds/iteration)...converged in 17 iterations.
+
+* Finished creating Bag-Of-Features
+
+Encoding images...
+
+Encoding images using Bag-Of-Features.
+--------------------------------------
+* Image category 1: chihuahua
+* Image category 2: muffin
+* Encoding 388 images...done.
+Visualizing misclassified images (Method2_BoF)...
+Accuracy: 81.70%
+Using ResNet50 for DCNN methods.
+
+--- Method 3: DCNN (ResNet50) + Linear SVM ---
+Extracting DCNN features...
+No mistakes found in the last fold (Method3_DCNN_Linear)!
+Accuracy: 100.00%
+
+--- Method 4: DCNN (ResNet50) + Non-linear SVM (RBF) ---
+Extracting DCNN features (Method 4)...
+No mistakes found in the last fold (Method4_DCNN_RBF)!
+Accuracy: 100.00%
+
+=== Results Summary: chihuahua vs muffin ===
+Method 1 (Color+KNN):      83.77%
+Method 2 (BoF+SVM):        81.70%
+Method 3 (DCNN+Linear):    100.00%
+Method 4 (DCNN+RBF):       100.00% (Advanced)
+===========================================
+
+========================================
+Starting Experiment: poodle vs fried_chicken
+========================================
+Using 196 images per class (Total: 392)
+
+--- Method 1: Color Histogram + KNN ---
+Visualizing misclassified images (Method1_ColorKNN)...
+Accuracy: 91.06%
+
+--- Method 2: Bag of Features (Dense) + Nonlinear SVM ---
+Creating Bag of Features...
+
+Creating Bag-Of-Features.
+-------------------------
+* Image category 1: poodle
+* Image category 2: fried_chicken
+* Extracting features using a custom feature extraction function: denseSurfExtractor.
+
+* Extracting features from 392 images...done. Extracted 392000 features.
+
+* Keeping 100 percent of the strongest features from each category.
+
+* Creating a 1000 word visual vocabulary.
+* Number of levels: 1
+* Branching factor: 1000
+* Number of clustering steps: 1
+
+* [Step 1/1] Clustering vocabulary level 1.
+* Number of features          : 392000
+* Number of clusters          : 1000
+* Initializing cluster centers...100.00%.
+* Clustering...completed 29/100 iterations (~1.22 seconds/iteration)...converged in 29 iterations.
+
+* Finished creating Bag-Of-Features
+
+Encoding images...
+
+Encoding images using Bag-Of-Features.
+--------------------------------------
+* Image category 1: poodle
+* Image category 2: fried_chicken
+* Encoding 392 images...done.
+Visualizing misclassified images (Method2_BoF)...
+Accuracy: 83.16%
+Using ResNet50 for DCNN methods.
+
+--- Method 3: DCNN (ResNet50) + Linear SVM ---
+Extracting DCNN features...
+No mistakes found in the last fold (Method3_DCNN_Linear)!
+Accuracy: 100.00%
+
+--- Method 4: DCNN (ResNet50) + Non-linear SVM (RBF) ---
+Extracting DCNN features (Method 4)...
+No mistakes found in the last fold (Method4_DCNN_RBF)!
+Accuracy: 100.00%
+
+=== Results Summary: poodle vs fried_chicken ===
+Method 1 (Color+KNN):      91.06%
+Method 2 (BoF+SVM):        83.16%
+Method 3 (DCNN+Linear):    100.00%
+Method 4 (DCNN+RBF):       100.00% (Advanced)
+===========================================
+
+========================================
+Starting Experiment: bus vs truck
+========================================
+Using 200 images per class (Total: 400)
+
+--- Method 1: Color Histogram + KNN ---
+Visualizing misclassified images (Method1_ColorKNN)...
+Accuracy: 67.75%
+
+--- Method 2: Bag of Features (Dense) + Nonlinear SVM ---
+Creating Bag of Features...
+
+Creating Bag-Of-Features.
+-------------------------
+* Image category 1: bus
+* Image category 2: truck
+* Extracting features using a custom feature extraction function: denseSurfExtractor.
+
+* Extracting features from 400 images...done. Extracted 400000 features.
+
+* Keeping 100 percent of the strongest features from each category.
+
+* Creating a 1000 word visual vocabulary.
+* Number of levels: 1
+* Branching factor: 1000
+* Number of clustering steps: 1
+
+* [Step 1/1] Clustering vocabulary level 1.
+* Number of features          : 400000
+* Number of clusters          : 1000
+* Initializing cluster centers...100.00%.
+* Clustering...completed 33/100 iterations (~1.64 seconds/iteration)...converged in 33 iterations.
+
+* Finished creating Bag-Of-Features
+
+Encoding images...
+
+Encoding images using Bag-Of-Features.
+--------------------------------------
+* Image category 1: bus
+* Image category 2: truck
+* Encoding 400 images...done.
+Visualizing misclassified images (Method2_BoF)...
+Accuracy: 69.50%
+Using ResNet50 for DCNN methods.
+
+--- Method 3: DCNN (ResNet50) + Linear SVM ---
+Extracting DCNN features...
+Visualizing misclassified images (Method3_DCNN_Linear)...
+Accuracy: 96.75%
+
+--- Method 4: DCNN (ResNet50) + Non-linear SVM (RBF) ---
+Extracting DCNN features (Method 4)...
+Visualizing misclassified images (Method4_DCNN_RBF)...
+Accuracy: 97.75%
+
+=== Results Summary: bus vs truck ===
+Method 1 (Color+KNN):      67.75%
+Method 2 (BoF+SVM):        69.50%
+Method 3 (DCNN+Linear):    96.75%
+Method 4 (DCNN+RBF):       97.75% (Advanced)
+===========================================
+---
+
+ass1_Mistakes_Method1_ColorKNN_20260118_230240.png
+ass1_Mistakes_Method1_ColorKNN_20260918_230202.png
+ass1_Mistakes_Method1_ColorKNN_20263818_220245.png
+ass1_Mistakes_Method1_ColorKNN_20265418_220209.png
+ass1_Mistakes_Method2_BoF_20260618_230235.png
+ass1_Mistakes_Method2_BoF_20261318_230249.png
+ass1_Mistakes_Method2_BoF_20265818_220247.png
+ass1_Mistakes_Method3_DCNN_Linear_20261418_230257.png
+ass1_Mistakes_Method4_DCNN_RBF_20261618_230204.png
+
+5.0 check whether img dataset is valid or not by checking all the image manually.
+5. ran the ass2_main.m in matlab, and got the following result:
+
+
+
+6. ran the ass2_generate_html.py in python, and got the following result:
+
+
+when utilizing top 100 photos:
+
+ass2_eval_original_apple_top25.html -> apple product: 100%, fruit: 0%
+ass2_eval_original_apple_top50.html -> apple product: 100%, fruit: 0%
+ass2_eval_original_kiwi_top25.html -> kiwi fruit: 100%, kiwi animal: 0%
+ass2_eval_original_kiwi_top50.html -> kiwi fruit: 100%, kiwi animal: 0%
+
+ass2_eval_reranked_apple_top25.html -> apple product: 100% (need to determine the detail(AVP? AWatch? .. etc))
+ass2_eval_reranked_apple_top50.html -> apple product: 96% (need to determine the detail(AVP? AWatch? .. etc seems like there are more logo than n25)) 4% etc
+ass2_eval_reranked_kiwi_top25.html -> kiwi fruit: 100%, kiwi animal: 0%
+ass2_eval_reranked_kiwi_top50.html -> kiwi fruit: 100%, kiwi animal: 0%
+
+7. analyze
+
+maybe all apple product is too broad? I think to focus on only logos are better for the valid comparison.

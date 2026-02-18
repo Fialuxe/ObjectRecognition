@@ -8,7 +8,7 @@ def generate_evaluation_html(txt_file, is_original=False):
         out_file = base_name.replace('ass2_rank_original', 'ass2_eval_original') + ".html"
         title_prefix = "Original Rank"
     else:
-        out_file = base_name.replace('ass2_rank_result', 'ass2_eval_result') + ".html"
+        out_file = base_name.replace('ass2_rank_reranked', 'ass2_eval_reranked') + ".html"
         title_prefix = "Re-ranked Result"
         
     print(f"Processing {txt_file} -> {out_file}")
@@ -123,7 +123,7 @@ def generate_evaluation_html(txt_file, is_original=False):
 
 def main():
     # Process Re-ranked results
-    files_result = glob.glob("ass2_rank_result_*.txt")
+    files_result = glob.glob("ass2_rank_reranked_*.txt")
     for f in files_result:
         generate_evaluation_html(f, is_original=False)
         

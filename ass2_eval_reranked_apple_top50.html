@@ -1,0 +1,3230 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Re-ranked Result</title>
+
+    <style>
+        body { font-family: sans-serif; background: #f5f5f5; padding: 20px; }
+        .header { position: sticky; top: 0; background: white; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .stats { font-size: 18px; font-weight: bold; }
+        .container { display: flex; flex-wrap: wrap; margin-top: 20px; }
+        .box { width: 200px; margin: 10px; padding: 10px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: all 0.2s; border: 2px solid transparent; position: relative; cursor: pointer; }
+        .box.correct { border-color: #4CAF50; background: #E8F5E9; }
+        .box:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .rank { font-weight: bold; font-size: 14px; color: #333; margin-bottom: 5px; }
+        img { width: 100%; height: 150px; object-fit: cover; border-radius: 4px; }
+        .info { font-size: 12px; color: #666; margin-top: 5px; word-break: break-all; }
+        .score { color: #888; font-size: 11px; }
+        .check-overlay { position: absolute; top: 10px; right: 10px; background: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .checkbox { cursor: pointer; width: 16px; height: 16px; }
+    </style>
+    <script>
+        function toggleCard(element) {
+            const checkbox = element.querySelector('.checkbox');
+            checkbox.checked = !checkbox.checked;
+            updateStats();
+            updateStyle(element, checkbox.checked);
+        }
+
+        function toggleCheckbox(event, element) {
+            event.stopPropagation();
+            const card = element.closest('.box');
+            updateStats();
+            updateStyle(card, element.checked);
+        }
+
+        function updateStyle(card, isChecked) {
+            if (isChecked) {
+                card.classList.add('correct');
+            } else {
+                card.classList.remove('correct');
+            }
+        }
+
+        function updateStats() {
+            const checkboxes = document.querySelectorAll('.checkbox');
+            let count100 = 0;
+            let countTotal = 0;
+            
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    const rank = parseInt(cb.dataset.rank);
+                    if (rank <= 100) count100++;
+                    countTotal++;
+                }
+            });
+            
+            document.getElementById('stat-top100').textContent = count100;
+            document.getElementById('stat-total').textContent = countTotal;
+        }
+    </script>
+    
+</head><body>
+<div class='header'>
+<div><h1>Re-ranked Result: ass2_rank_reranked_apple_top50</h1></div>
+<div class='stats'>Precision@100: <span id='stat-top100' style='color:#4CAF50'>0</span> / 100 <span style='font-size:0.8em; color:#888'>(Total Selected: <span id='stat-total'>0</span>)</span></div>
+</div>
+<div class='container'>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='1' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#1</div>
+<img src='img/apple/000053.jpg' loading='lazy' alt='000053.jpg'>
+<div class='info'>000053.jpg</div>
+<div class='score'>Score: 2.1521</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='2' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#2</div>
+<img src='img/apple/000135.jpg' loading='lazy' alt='000135.jpg'>
+<div class='info'>000135.jpg</div>
+<div class='score'>Score: 2.1116</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='3' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#3</div>
+<img src='img/apple/000154.jpg' loading='lazy' alt='000154.jpg'>
+<div class='info'>000154.jpg</div>
+<div class='score'>Score: 1.9999</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='4' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#4</div>
+<img src='img/apple/000163.jpg' loading='lazy' alt='000163.jpg'>
+<div class='info'>000163.jpg</div>
+<div class='score'>Score: 1.9407</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='5' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#5</div>
+<img src='img/apple/000058.jpg' loading='lazy' alt='000058.jpg'>
+<div class='info'>000058.jpg</div>
+<div class='score'>Score: 1.9319</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='6' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#6</div>
+<img src='img/apple/000099.jpg' loading='lazy' alt='000099.jpg'>
+<div class='info'>000099.jpg</div>
+<div class='score'>Score: 1.9214</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='7' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#7</div>
+<img src='img/apple/000057.jpg' loading='lazy' alt='000057.jpg'>
+<div class='info'>000057.jpg</div>
+<div class='score'>Score: 1.9109</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='8' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#8</div>
+<img src='img/apple/000103.jpg' loading='lazy' alt='000103.jpg'>
+<div class='info'>000103.jpg</div>
+<div class='score'>Score: 1.8564</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='9' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#9</div>
+<img src='img/apple/000065.jpg' loading='lazy' alt='000065.jpg'>
+<div class='info'>000065.jpg</div>
+<div class='score'>Score: 1.8172</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='10' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#10</div>
+<img src='img/apple/000104.jpg' loading='lazy' alt='000104.jpg'>
+<div class='info'>000104.jpg</div>
+<div class='score'>Score: 1.7936</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='11' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#11</div>
+<img src='img/apple/000063.jpg' loading='lazy' alt='000063.jpg'>
+<div class='info'>000063.jpg</div>
+<div class='score'>Score: 1.7772</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='12' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#12</div>
+<img src='img/apple/000109.jpg' loading='lazy' alt='000109.jpg'>
+<div class='info'>000109.jpg</div>
+<div class='score'>Score: 1.7682</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='13' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#13</div>
+<img src='img/apple/000077.jpg' loading='lazy' alt='000077.jpg'>
+<div class='info'>000077.jpg</div>
+<div class='score'>Score: 1.7262</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='14' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#14</div>
+<img src='img/apple/000144.jpg' loading='lazy' alt='000144.jpg'>
+<div class='info'>000144.jpg</div>
+<div class='score'>Score: 1.7091</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='15' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#15</div>
+<img src='img/apple/000125.jpg' loading='lazy' alt='000125.jpg'>
+<div class='info'>000125.jpg</div>
+<div class='score'>Score: 1.6451</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='16' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#16</div>
+<img src='img/apple/000073.jpg' loading='lazy' alt='000073.jpg'>
+<div class='info'>000073.jpg</div>
+<div class='score'>Score: 1.5216</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='17' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#17</div>
+<img src='img/apple/000162.jpg' loading='lazy' alt='000162.jpg'>
+<div class='info'>000162.jpg</div>
+<div class='score'>Score: 1.4757</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='18' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#18</div>
+<img src='img/apple/000131.jpg' loading='lazy' alt='000131.jpg'>
+<div class='info'>000131.jpg</div>
+<div class='score'>Score: 1.4618</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='19' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#19</div>
+<img src='img/apple/000071.jpg' loading='lazy' alt='000071.jpg'>
+<div class='info'>000071.jpg</div>
+<div class='score'>Score: 1.4203</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='20' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#20</div>
+<img src='img/apple/000059.jpg' loading='lazy' alt='000059.jpg'>
+<div class='info'>000059.jpg</div>
+<div class='score'>Score: 1.2781</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='21' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#21</div>
+<img src='img/apple/000149.jpg' loading='lazy' alt='000149.jpg'>
+<div class='info'>000149.jpg</div>
+<div class='score'>Score: 1.2724</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='22' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#22</div>
+<img src='img/apple/000102.jpg' loading='lazy' alt='000102.jpg'>
+<div class='info'>000102.jpg</div>
+<div class='score'>Score: 1.2653</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='23' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#23</div>
+<img src='img/apple/000054.jpg' loading='lazy' alt='000054.jpg'>
+<div class='info'>000054.jpg</div>
+<div class='score'>Score: 1.2508</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='24' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#24</div>
+<img src='img/apple/000074.jpg' loading='lazy' alt='000074.jpg'>
+<div class='info'>000074.jpg</div>
+<div class='score'>Score: 1.1950</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='25' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#25</div>
+<img src='img/apple/000064.jpg' loading='lazy' alt='000064.jpg'>
+<div class='info'>000064.jpg</div>
+<div class='score'>Score: 1.1904</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='26' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#26</div>
+<img src='img/apple/000168.jpg' loading='lazy' alt='000168.jpg'>
+<div class='info'>000168.jpg</div>
+<div class='score'>Score: 1.1087</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='27' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#27</div>
+<img src='img/apple/000069.jpg' loading='lazy' alt='000069.jpg'>
+<div class='info'>000069.jpg</div>
+<div class='score'>Score: 1.1046</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='28' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#28</div>
+<img src='img/apple/000090.jpg' loading='lazy' alt='000090.jpg'>
+<div class='info'>000090.jpg</div>
+<div class='score'>Score: 1.0623</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='29' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#29</div>
+<img src='img/apple/000117.jpg' loading='lazy' alt='000117.jpg'>
+<div class='info'>000117.jpg</div>
+<div class='score'>Score: 1.0452</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='30' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#30</div>
+<img src='img/apple/000150.jpg' loading='lazy' alt='000150.jpg'>
+<div class='info'>000150.jpg</div>
+<div class='score'>Score: 1.0231</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='31' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#31</div>
+<img src='img/apple/000214_2.jpg' loading='lazy' alt='000214_2.jpg'>
+<div class='info'>000214_2.jpg</div>
+<div class='score'>Score: 1.0003</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='32' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#32</div>
+<img src='img/apple/000213_2.jpg' loading='lazy' alt='000213_2.jpg'>
+<div class='info'>000213_2.jpg</div>
+<div class='score'>Score: 1.0003</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='33' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#33</div>
+<img src='img/apple/000098.jpg' loading='lazy' alt='000098.jpg'>
+<div class='info'>000098.jpg</div>
+<div class='score'>Score: 0.9871</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='34' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#34</div>
+<img src='img/apple/000178.jpg' loading='lazy' alt='000178.jpg'>
+<div class='info'>000178.jpg</div>
+<div class='score'>Score: 0.9794</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='35' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#35</div>
+<img src='img/apple/000159.jpg' loading='lazy' alt='000159.jpg'>
+<div class='info'>000159.jpg</div>
+<div class='score'>Score: 0.9629</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='36' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#36</div>
+<img src='img/apple/000142.jpg' loading='lazy' alt='000142.jpg'>
+<div class='info'>000142.jpg</div>
+<div class='score'>Score: 0.9592</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='37' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#37</div>
+<img src='img/apple/000132.jpg' loading='lazy' alt='000132.jpg'>
+<div class='info'>000132.jpg</div>
+<div class='score'>Score: 0.9536</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='38' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#38</div>
+<img src='img/apple/000088.jpg' loading='lazy' alt='000088.jpg'>
+<div class='info'>000088.jpg</div>
+<div class='score'>Score: 0.9382</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='39' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#39</div>
+<img src='img/apple/000076.jpg' loading='lazy' alt='000076.jpg'>
+<div class='info'>000076.jpg</div>
+<div class='score'>Score: 0.9235</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='40' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#40</div>
+<img src='img/apple/000081.jpg' loading='lazy' alt='000081.jpg'>
+<div class='info'>000081.jpg</div>
+<div class='score'>Score: 0.9196</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='41' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#41</div>
+<img src='img/apple/000134.jpg' loading='lazy' alt='000134.jpg'>
+<div class='info'>000134.jpg</div>
+<div class='score'>Score: 0.9145</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='42' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#42</div>
+<img src='img/apple/000198.jpg' loading='lazy' alt='000198.jpg'>
+<div class='info'>000198.jpg</div>
+<div class='score'>Score: 0.9058</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='43' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#43</div>
+<img src='img/apple/000186.jpg' loading='lazy' alt='000186.jpg'>
+<div class='info'>000186.jpg</div>
+<div class='score'>Score: 0.8885</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='44' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#44</div>
+<img src='img/apple/000066.jpg' loading='lazy' alt='000066.jpg'>
+<div class='info'>000066.jpg</div>
+<div class='score'>Score: 0.8658</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='45' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#45</div>
+<img src='img/apple/000087.jpg' loading='lazy' alt='000087.jpg'>
+<div class='info'>000087.jpg</div>
+<div class='score'>Score: 0.8571</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='46' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#46</div>
+<img src='img/apple/000130.jpg' loading='lazy' alt='000130.jpg'>
+<div class='info'>000130.jpg</div>
+<div class='score'>Score: 0.8325</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='47' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#47</div>
+<img src='img/apple/000052.jpg' loading='lazy' alt='000052.jpg'>
+<div class='info'>000052.jpg</div>
+<div class='score'>Score: 0.8220</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='48' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#48</div>
+<img src='img/apple/000051.jpg' loading='lazy' alt='000051.jpg'>
+<div class='info'>000051.jpg</div>
+<div class='score'>Score: 0.7621</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='49' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#49</div>
+<img src='img/apple/000055.jpg' loading='lazy' alt='000055.jpg'>
+<div class='info'>000055.jpg</div>
+<div class='score'>Score: 0.7315</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='50' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#50</div>
+<img src='img/apple/000080.jpg' loading='lazy' alt='000080.jpg'>
+<div class='info'>000080.jpg</div>
+<div class='score'>Score: 0.7183</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='51' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#51</div>
+<img src='img/apple/000175.jpg' loading='lazy' alt='000175.jpg'>
+<div class='info'>000175.jpg</div>
+<div class='score'>Score: 0.6727</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='52' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#52</div>
+<img src='img/apple/000138.jpg' loading='lazy' alt='000138.jpg'>
+<div class='info'>000138.jpg</div>
+<div class='score'>Score: 0.6660</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='53' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#53</div>
+<img src='img/apple/000085.jpg' loading='lazy' alt='000085.jpg'>
+<div class='info'>000085.jpg</div>
+<div class='score'>Score: 0.6422</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='54' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#54</div>
+<img src='img/apple/000170.jpg' loading='lazy' alt='000170.jpg'>
+<div class='info'>000170.jpg</div>
+<div class='score'>Score: 0.6132</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='55' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#55</div>
+<img src='img/apple/000115.jpg' loading='lazy' alt='000115.jpg'>
+<div class='info'>000115.jpg</div>
+<div class='score'>Score: 0.6024</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='56' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#56</div>
+<img src='img/apple/000155.jpg' loading='lazy' alt='000155.jpg'>
+<div class='info'>000155.jpg</div>
+<div class='score'>Score: 0.5670</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='57' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#57</div>
+<img src='img/apple/000123.jpg' loading='lazy' alt='000123.jpg'>
+<div class='info'>000123.jpg</div>
+<div class='score'>Score: 0.5444</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='58' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#58</div>
+<img src='img/apple/000105.jpg' loading='lazy' alt='000105.jpg'>
+<div class='info'>000105.jpg</div>
+<div class='score'>Score: 0.5291</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='59' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#59</div>
+<img src='img/apple/000200.jpg' loading='lazy' alt='000200.jpg'>
+<div class='info'>000200.jpg</div>
+<div class='score'>Score: 0.5044</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='60' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#60</div>
+<img src='img/apple/000075.jpg' loading='lazy' alt='000075.jpg'>
+<div class='info'>000075.jpg</div>
+<div class='score'>Score: 0.4933</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='61' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#61</div>
+<img src='img/apple/000067.jpg' loading='lazy' alt='000067.jpg'>
+<div class='info'>000067.jpg</div>
+<div class='score'>Score: 0.4856</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='62' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#62</div>
+<img src='img/apple/000156.jpg' loading='lazy' alt='000156.jpg'>
+<div class='info'>000156.jpg</div>
+<div class='score'>Score: 0.4712</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='63' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#63</div>
+<img src='img/apple/000148.jpg' loading='lazy' alt='000148.jpg'>
+<div class='info'>000148.jpg</div>
+<div class='score'>Score: 0.4655</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='64' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#64</div>
+<img src='img/apple/000171.jpg' loading='lazy' alt='000171.jpg'>
+<div class='info'>000171.jpg</div>
+<div class='score'>Score: 0.4544</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='65' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#65</div>
+<img src='img/apple/000199.jpg' loading='lazy' alt='000199.jpg'>
+<div class='info'>000199.jpg</div>
+<div class='score'>Score: 0.4351</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='66' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#66</div>
+<img src='img/apple/000056.jpg' loading='lazy' alt='000056.jpg'>
+<div class='info'>000056.jpg</div>
+<div class='score'>Score: 0.4164</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='67' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#67</div>
+<img src='img/apple/000060.jpg' loading='lazy' alt='000060.jpg'>
+<div class='info'>000060.jpg</div>
+<div class='score'>Score: 0.3619</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='68' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#68</div>
+<img src='img/apple/000107.jpg' loading='lazy' alt='000107.jpg'>
+<div class='info'>000107.jpg</div>
+<div class='score'>Score: 0.3504</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='69' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#69</div>
+<img src='img/apple/000070.jpg' loading='lazy' alt='000070.jpg'>
+<div class='info'>000070.jpg</div>
+<div class='score'>Score: 0.3404</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='70' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#70</div>
+<img src='img/apple/000089.jpg' loading='lazy' alt='000089.jpg'>
+<div class='info'>000089.jpg</div>
+<div class='score'>Score: 0.3385</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='71' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#71</div>
+<img src='img/apple/000152.jpg' loading='lazy' alt='000152.jpg'>
+<div class='info'>000152.jpg</div>
+<div class='score'>Score: 0.3364</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='72' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#72</div>
+<img src='img/apple/000094.jpg' loading='lazy' alt='000094.jpg'>
+<div class='info'>000094.jpg</div>
+<div class='score'>Score: 0.3358</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='73' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#73</div>
+<img src='img/apple/000112.jpg' loading='lazy' alt='000112.jpg'>
+<div class='info'>000112.jpg</div>
+<div class='score'>Score: 0.3184</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='74' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#74</div>
+<img src='img/apple/000191.jpg' loading='lazy' alt='000191.jpg'>
+<div class='info'>000191.jpg</div>
+<div class='score'>Score: 0.3170</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='75' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#75</div>
+<img src='img/apple/000086.jpg' loading='lazy' alt='000086.jpg'>
+<div class='info'>000086.jpg</div>
+<div class='score'>Score: 0.3025</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='76' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#76</div>
+<img src='img/apple/000174.jpg' loading='lazy' alt='000174.jpg'>
+<div class='info'>000174.jpg</div>
+<div class='score'>Score: 0.2672</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='77' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#77</div>
+<img src='img/apple/000160.jpg' loading='lazy' alt='000160.jpg'>
+<div class='info'>000160.jpg</div>
+<div class='score'>Score: 0.2516</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='78' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#78</div>
+<img src='img/apple/000185.jpg' loading='lazy' alt='000185.jpg'>
+<div class='info'>000185.jpg</div>
+<div class='score'>Score: 0.2396</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='79' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#79</div>
+<img src='img/apple/000165.jpg' loading='lazy' alt='000165.jpg'>
+<div class='info'>000165.jpg</div>
+<div class='score'>Score: 0.2369</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='80' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#80</div>
+<img src='img/apple/000184.jpg' loading='lazy' alt='000184.jpg'>
+<div class='info'>000184.jpg</div>
+<div class='score'>Score: 0.2282</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='81' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#81</div>
+<img src='img/apple/000092.jpg' loading='lazy' alt='000092.jpg'>
+<div class='info'>000092.jpg</div>
+<div class='score'>Score: 0.2046</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='82' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#82</div>
+<img src='img/apple/000072.jpg' loading='lazy' alt='000072.jpg'>
+<div class='info'>000072.jpg</div>
+<div class='score'>Score: 0.1764</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='83' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#83</div>
+<img src='img/apple/000187.jpg' loading='lazy' alt='000187.jpg'>
+<div class='info'>000187.jpg</div>
+<div class='score'>Score: 0.1716</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='84' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#84</div>
+<img src='img/apple/000119.jpg' loading='lazy' alt='000119.jpg'>
+<div class='info'>000119.jpg</div>
+<div class='score'>Score: 0.1543</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='85' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#85</div>
+<img src='img/apple/000164.jpg' loading='lazy' alt='000164.jpg'>
+<div class='info'>000164.jpg</div>
+<div class='score'>Score: 0.1320</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='86' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#86</div>
+<img src='img/apple/000161.jpg' loading='lazy' alt='000161.jpg'>
+<div class='info'>000161.jpg</div>
+<div class='score'>Score: 0.1309</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='87' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#87</div>
+<img src='img/apple/000062.jpg' loading='lazy' alt='000062.jpg'>
+<div class='info'>000062.jpg</div>
+<div class='score'>Score: 0.1243</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='88' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#88</div>
+<img src='img/apple/000121.jpg' loading='lazy' alt='000121.jpg'>
+<div class='info'>000121.jpg</div>
+<div class='score'>Score: 0.1171</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='89' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#89</div>
+<img src='img/apple/000133.jpg' loading='lazy' alt='000133.jpg'>
+<div class='info'>000133.jpg</div>
+<div class='score'>Score: 0.1046</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='90' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#90</div>
+<img src='img/apple/000157.jpg' loading='lazy' alt='000157.jpg'>
+<div class='info'>000157.jpg</div>
+<div class='score'>Score: 0.0882</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='91' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#91</div>
+<img src='img/apple/000219.jpg' loading='lazy' alt='000219.jpg'>
+<div class='info'>000219.jpg</div>
+<div class='score'>Score: 0.0682</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='92' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#92</div>
+<img src='img/apple/000196.jpg' loading='lazy' alt='000196.jpg'>
+<div class='info'>000196.jpg</div>
+<div class='score'>Score: 0.0508</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='93' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#93</div>
+<img src='bgimg/000195.jpg' loading='lazy' alt='000195.jpg'>
+<div class='info'>000195.jpg</div>
+<div class='score'>Score: 0.0362</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='94' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#94</div>
+<img src='img/apple/000111.jpg' loading='lazy' alt='000111.jpg'>
+<div class='info'>000111.jpg</div>
+<div class='score'>Score: 0.0316</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='95' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#95</div>
+<img src='img/apple/000082.jpg' loading='lazy' alt='000082.jpg'>
+<div class='info'>000082.jpg</div>
+<div class='score'>Score: 0.0301</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='96' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#96</div>
+<img src='bgimg/000899.jpg' loading='lazy' alt='000899.jpg'>
+<div class='info'>000899.jpg</div>
+<div class='score'>Score: 0.0277</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='97' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#97</div>
+<img src='img/apple/000141.jpg' loading='lazy' alt='000141.jpg'>
+<div class='info'>000141.jpg</div>
+<div class='score'>Score: 0.0138</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='98' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#98</div>
+<img src='img/apple/000287.jpg' loading='lazy' alt='000287.jpg'>
+<div class='info'>000287.jpg</div>
+<div class='score'>Score: 0.0069</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='99' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#99</div>
+<img src='img/apple/000140.jpg' loading='lazy' alt='000140.jpg'>
+<div class='info'>000140.jpg</div>
+<div class='score'>Score: -0.0000</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='100' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#100</div>
+<img src='img/apple/000189.jpg' loading='lazy' alt='000189.jpg'>
+<div class='info'>000189.jpg</div>
+<div class='score'>Score: -0.0017</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='101' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#101</div>
+<img src='img/apple/000084.jpg' loading='lazy' alt='000084.jpg'>
+<div class='info'>000084.jpg</div>
+<div class='score'>Score: -0.0259</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='102' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#102</div>
+<img src='img/apple/000095.jpg' loading='lazy' alt='000095.jpg'>
+<div class='info'>000095.jpg</div>
+<div class='score'>Score: -0.0271</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='103' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#103</div>
+<img src='img/apple/000176.jpg' loading='lazy' alt='000176.jpg'>
+<div class='info'>000176.jpg</div>
+<div class='score'>Score: -0.0301</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='104' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#104</div>
+<img src='bgimg/000181.jpg' loading='lazy' alt='000181.jpg'>
+<div class='info'>000181.jpg</div>
+<div class='score'>Score: -0.0371</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='105' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#105</div>
+<img src='img/apple/000114.jpg' loading='lazy' alt='000114.jpg'>
+<div class='info'>000114.jpg</div>
+<div class='score'>Score: -0.0561</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='106' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#106</div>
+<img src='img/apple/000139.jpg' loading='lazy' alt='000139.jpg'>
+<div class='info'>000139.jpg</div>
+<div class='score'>Score: -0.0568</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='107' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#107</div>
+<img src='img/apple/000100.jpg' loading='lazy' alt='000100.jpg'>
+<div class='info'>000100.jpg</div>
+<div class='score'>Score: -0.0904</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='108' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#108</div>
+<img src='img/apple/000113.jpg' loading='lazy' alt='000113.jpg'>
+<div class='info'>000113.jpg</div>
+<div class='score'>Score: -0.0975</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='109' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#109</div>
+<img src='img/apple/000179.jpg' loading='lazy' alt='000179.jpg'>
+<div class='info'>000179.jpg</div>
+<div class='score'>Score: -0.1221</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='110' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#110</div>
+<img src='img/apple/000147.jpg' loading='lazy' alt='000147.jpg'>
+<div class='info'>000147.jpg</div>
+<div class='score'>Score: -0.1294</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='111' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#111</div>
+<img src='img/apple/000194.jpg' loading='lazy' alt='000194.jpg'>
+<div class='info'>000194.jpg</div>
+<div class='score'>Score: -0.1480</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='112' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#112</div>
+<img src='img/apple/000145.jpg' loading='lazy' alt='000145.jpg'>
+<div class='info'>000145.jpg</div>
+<div class='score'>Score: -0.1575</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='113' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#113</div>
+<img src='img/apple/000265.jpg' loading='lazy' alt='000265.jpg'>
+<div class='info'>000265.jpg</div>
+<div class='score'>Score: -0.1670</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='114' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#114</div>
+<img src='img/apple/000106.jpg' loading='lazy' alt='000106.jpg'>
+<div class='info'>000106.jpg</div>
+<div class='score'>Score: -0.1704</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='115' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#115</div>
+<img src='img/apple/000188.jpg' loading='lazy' alt='000188.jpg'>
+<div class='info'>000188.jpg</div>
+<div class='score'>Score: -0.1984</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='116' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#116</div>
+<img src='img/apple/000297.jpg' loading='lazy' alt='000297.jpg'>
+<div class='info'>000297.jpg</div>
+<div class='score'>Score: -0.2098</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='117' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#117</div>
+<img src='bgimg/000323.jpg' loading='lazy' alt='000323.jpg'>
+<div class='info'>000323.jpg</div>
+<div class='score'>Score: -0.2144</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='118' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#118</div>
+<img src='img/apple/000153.jpg' loading='lazy' alt='000153.jpg'>
+<div class='info'>000153.jpg</div>
+<div class='score'>Score: -0.2174</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='119' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#119</div>
+<img src='img/apple/000116.jpg' loading='lazy' alt='000116.jpg'>
+<div class='info'>000116.jpg</div>
+<div class='score'>Score: -0.2224</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='120' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#120</div>
+<img src='img/apple/000083.jpg' loading='lazy' alt='000083.jpg'>
+<div class='info'>000083.jpg</div>
+<div class='score'>Score: -0.2227</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='121' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#121</div>
+<img src='img/apple/000101.jpg' loading='lazy' alt='000101.jpg'>
+<div class='info'>000101.jpg</div>
+<div class='score'>Score: -0.2367</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='122' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#122</div>
+<img src='img/apple/000173.jpg' loading='lazy' alt='000173.jpg'>
+<div class='info'>000173.jpg</div>
+<div class='score'>Score: -0.2413</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='123' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#123</div>
+<img src='img/apple/000096.jpg' loading='lazy' alt='000096.jpg'>
+<div class='info'>000096.jpg</div>
+<div class='score'>Score: -0.2496</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='124' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#124</div>
+<img src='img/apple/000284.jpg' loading='lazy' alt='000284.jpg'>
+<div class='info'>000284.jpg</div>
+<div class='score'>Score: -0.2506</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='125' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#125</div>
+<img src='img/apple/000129.jpg' loading='lazy' alt='000129.jpg'>
+<div class='info'>000129.jpg</div>
+<div class='score'>Score: -0.2518</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='126' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#126</div>
+<img src='bgimg/000942.jpg' loading='lazy' alt='000942.jpg'>
+<div class='info'>000942.jpg</div>
+<div class='score'>Score: -0.2802</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='127' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#127</div>
+<img src='img/apple/000181.jpg' loading='lazy' alt='000181.jpg'>
+<div class='info'>000181.jpg</div>
+<div class='score'>Score: -0.2833</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='128' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#128</div>
+<img src='img/apple/000079.jpg' loading='lazy' alt='000079.jpg'>
+<div class='info'>000079.jpg</div>
+<div class='score'>Score: -0.2994</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='129' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#129</div>
+<img src='bgimg/000677.jpg' loading='lazy' alt='000677.jpg'>
+<div class='info'>000677.jpg</div>
+<div class='score'>Score: -0.3369</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='130' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#130</div>
+<img src='bgimg/000498.jpg' loading='lazy' alt='000498.jpg'>
+<div class='info'>000498.jpg</div>
+<div class='score'>Score: -0.3479</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='131' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#131</div>
+<img src='img/apple/000203.jpg' loading='lazy' alt='000203.jpg'>
+<div class='info'>000203.jpg</div>
+<div class='score'>Score: -0.3507</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='132' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#132</div>
+<img src='img/apple/000291.jpg' loading='lazy' alt='000291.jpg'>
+<div class='info'>000291.jpg</div>
+<div class='score'>Score: -0.3515</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='133' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#133</div>
+<img src='img/apple/000146.jpg' loading='lazy' alt='000146.jpg'>
+<div class='info'>000146.jpg</div>
+<div class='score'>Score: -0.3584</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='134' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#134</div>
+<img src='img/apple/000137.jpg' loading='lazy' alt='000137.jpg'>
+<div class='info'>000137.jpg</div>
+<div class='score'>Score: -0.3675</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='135' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#135</div>
+<img src='img/apple/000091.jpg' loading='lazy' alt='000091.jpg'>
+<div class='info'>000091.jpg</div>
+<div class='score'>Score: -0.3677</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='136' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#136</div>
+<img src='img/apple/000127.jpg' loading='lazy' alt='000127.jpg'>
+<div class='info'>000127.jpg</div>
+<div class='score'>Score: -0.3948</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='137' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#137</div>
+<img src='img/apple/000293.jpg' loading='lazy' alt='000293.jpg'>
+<div class='info'>000293.jpg</div>
+<div class='score'>Score: -0.4149</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='138' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#138</div>
+<img src='img/apple/000201.jpg' loading='lazy' alt='000201.jpg'>
+<div class='info'>000201.jpg</div>
+<div class='score'>Score: -0.4180</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='139' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#139</div>
+<img src='img/apple/000251.jpg' loading='lazy' alt='000251.jpg'>
+<div class='info'>000251.jpg</div>
+<div class='score'>Score: -0.4298</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='140' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#140</div>
+<img src='img/apple/000126.jpg' loading='lazy' alt='000126.jpg'>
+<div class='info'>000126.jpg</div>
+<div class='score'>Score: -0.4361</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='141' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#141</div>
+<img src='img/apple/000124.jpg' loading='lazy' alt='000124.jpg'>
+<div class='info'>000124.jpg</div>
+<div class='score'>Score: -0.4444</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='142' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#142</div>
+<img src='bgimg/000003.jpg' loading='lazy' alt='000003.jpg'>
+<div class='info'>000003.jpg</div>
+<div class='score'>Score: -0.4557</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='143' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#143</div>
+<img src='img/apple/000122.jpg' loading='lazy' alt='000122.jpg'>
+<div class='info'>000122.jpg</div>
+<div class='score'>Score: -0.4565</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='144' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#144</div>
+<img src='img/apple/000061.jpg' loading='lazy' alt='000061.jpg'>
+<div class='info'>000061.jpg</div>
+<div class='score'>Score: -0.4755</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='145' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#145</div>
+<img src='bgimg/000022.jpg' loading='lazy' alt='000022.jpg'>
+<div class='info'>000022.jpg</div>
+<div class='score'>Score: -0.4782</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='146' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#146</div>
+<img src='img/apple/000108.jpg' loading='lazy' alt='000108.jpg'>
+<div class='info'>000108.jpg</div>
+<div class='score'>Score: -0.4808</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='147' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#147</div>
+<img src='img/apple/000234.jpg' loading='lazy' alt='000234.jpg'>
+<div class='info'>000234.jpg</div>
+<div class='score'>Score: -0.4897</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='148' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#148</div>
+<img src='bgimg/000618.jpg' loading='lazy' alt='000618.jpg'>
+<div class='info'>000618.jpg</div>
+<div class='score'>Score: -0.4902</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='149' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#149</div>
+<img src='img/apple/000190.jpg' loading='lazy' alt='000190.jpg'>
+<div class='info'>000190.jpg</div>
+<div class='score'>Score: -0.4928</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='150' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#150</div>
+<img src='img/apple/000167.jpg' loading='lazy' alt='000167.jpg'>
+<div class='info'>000167.jpg</div>
+<div class='score'>Score: -0.5086</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='151' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#151</div>
+<img src='img/apple/000262.jpg' loading='lazy' alt='000262.jpg'>
+<div class='info'>000262.jpg</div>
+<div class='score'>Score: -0.5249</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='152' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#152</div>
+<img src='bgimg/000804.jpg' loading='lazy' alt='000804.jpg'>
+<div class='info'>000804.jpg</div>
+<div class='score'>Score: -0.5366</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='153' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#153</div>
+<img src='img/apple/000253.jpg' loading='lazy' alt='000253.jpg'>
+<div class='info'>000253.jpg</div>
+<div class='score'>Score: -0.5382</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='154' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#154</div>
+<img src='img/apple/000118.jpg' loading='lazy' alt='000118.jpg'>
+<div class='info'>000118.jpg</div>
+<div class='score'>Score: -0.5428</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='155' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#155</div>
+<img src='img/apple/000210.jpg' loading='lazy' alt='000210.jpg'>
+<div class='info'>000210.jpg</div>
+<div class='score'>Score: -0.5464</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='156' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#156</div>
+<img src='img/apple/000078.jpg' loading='lazy' alt='000078.jpg'>
+<div class='info'>000078.jpg</div>
+<div class='score'>Score: -0.5731</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='157' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#157</div>
+<img src='bgimg/000912.jpg' loading='lazy' alt='000912.jpg'>
+<div class='info'>000912.jpg</div>
+<div class='score'>Score: -0.5807</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='158' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#158</div>
+<img src='img/apple/000221.jpg' loading='lazy' alt='000221.jpg'>
+<div class='info'>000221.jpg</div>
+<div class='score'>Score: -0.5921</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='159' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#159</div>
+<img src='bgimg/000349.jpg' loading='lazy' alt='000349.jpg'>
+<div class='info'>000349.jpg</div>
+<div class='score'>Score: -0.5970</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='160' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#160</div>
+<img src='img/apple/000285.jpg' loading='lazy' alt='000285.jpg'>
+<div class='info'>000285.jpg</div>
+<div class='score'>Score: -0.5975</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='161' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#161</div>
+<img src='bgimg/000769.jpg' loading='lazy' alt='000769.jpg'>
+<div class='info'>000769.jpg</div>
+<div class='score'>Score: -0.6002</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='162' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#162</div>
+<img src='img/apple/000097.jpg' loading='lazy' alt='000097.jpg'>
+<div class='info'>000097.jpg</div>
+<div class='score'>Score: -0.6126</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='163' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#163</div>
+<img src='img/apple/000257.jpg' loading='lazy' alt='000257.jpg'>
+<div class='info'>000257.jpg</div>
+<div class='score'>Score: -0.6183</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='164' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#164</div>
+<img src='img/apple/000240.jpg' loading='lazy' alt='000240.jpg'>
+<div class='info'>000240.jpg</div>
+<div class='score'>Score: -0.6229</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='165' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#165</div>
+<img src='img/apple/000158.jpg' loading='lazy' alt='000158.jpg'>
+<div class='info'>000158.jpg</div>
+<div class='score'>Score: -0.6847</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='166' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#166</div>
+<img src='img/apple/000233.jpg' loading='lazy' alt='000233.jpg'>
+<div class='info'>000233.jpg</div>
+<div class='score'>Score: -0.6867</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='167' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#167</div>
+<img src='img/apple/000252.jpg' loading='lazy' alt='000252.jpg'>
+<div class='info'>000252.jpg</div>
+<div class='score'>Score: -0.6902</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='168' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#168</div>
+<img src='bgimg/000453.jpg' loading='lazy' alt='000453.jpg'>
+<div class='info'>000453.jpg</div>
+<div class='score'>Score: -0.6909</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='169' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#169</div>
+<img src='img/apple/000294.jpg' loading='lazy' alt='000294.jpg'>
+<div class='info'>000294.jpg</div>
+<div class='score'>Score: -0.6939</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='170' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#170</div>
+<img src='img/apple/000225.jpg' loading='lazy' alt='000225.jpg'>
+<div class='info'>000225.jpg</div>
+<div class='score'>Score: -0.7001</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='171' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#171</div>
+<img src='img/apple/000128.jpg' loading='lazy' alt='000128.jpg'>
+<div class='info'>000128.jpg</div>
+<div class='score'>Score: -0.7294</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='172' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#172</div>
+<img src='img/apple/000166.jpg' loading='lazy' alt='000166.jpg'>
+<div class='info'>000166.jpg</div>
+<div class='score'>Score: -0.7306</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='173' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#173</div>
+<img src='bgimg/001015.jpg' loading='lazy' alt='001015.jpg'>
+<div class='info'>001015.jpg</div>
+<div class='score'>Score: -0.7347</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='174' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#174</div>
+<img src='img/apple/000300.jpg' loading='lazy' alt='000300.jpg'>
+<div class='info'>000300.jpg</div>
+<div class='score'>Score: -0.7375</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='175' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#175</div>
+<img src='img/apple/000214.jpg' loading='lazy' alt='000214.jpg'>
+<div class='info'>000214.jpg</div>
+<div class='score'>Score: -0.7430</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='176' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#176</div>
+<img src='img/apple/000120.jpg' loading='lazy' alt='000120.jpg'>
+<div class='info'>000120.jpg</div>
+<div class='score'>Score: -0.7462</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='177' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#177</div>
+<img src='img/apple/000295.jpg' loading='lazy' alt='000295.jpg'>
+<div class='info'>000295.jpg</div>
+<div class='score'>Score: -0.7471</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='178' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#178</div>
+<img src='img/apple/000151.jpg' loading='lazy' alt='000151.jpg'>
+<div class='info'>000151.jpg</div>
+<div class='score'>Score: -0.7534</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='179' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#179</div>
+<img src='img/apple/000236.jpg' loading='lazy' alt='000236.jpg'>
+<div class='info'>000236.jpg</div>
+<div class='score'>Score: -0.7570</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='180' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#180</div>
+<img src='img/apple/000216.jpg' loading='lazy' alt='000216.jpg'>
+<div class='info'>000216.jpg</div>
+<div class='score'>Score: -0.7589</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='181' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#181</div>
+<img src='bgimg/000223.jpg' loading='lazy' alt='000223.jpg'>
+<div class='info'>000223.jpg</div>
+<div class='score'>Score: -0.7637</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='182' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#182</div>
+<img src='img/apple/000239.jpg' loading='lazy' alt='000239.jpg'>
+<div class='info'>000239.jpg</div>
+<div class='score'>Score: -0.7641</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='183' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#183</div>
+<img src='img/apple/000273.jpg' loading='lazy' alt='000273.jpg'>
+<div class='info'>000273.jpg</div>
+<div class='score'>Score: -0.7686</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='184' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#184</div>
+<img src='bgimg/001103.jpg' loading='lazy' alt='001103.jpg'>
+<div class='info'>001103.jpg</div>
+<div class='score'>Score: -0.7698</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='185' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#185</div>
+<img src='img/apple/000195.jpg' loading='lazy' alt='000195.jpg'>
+<div class='info'>000195.jpg</div>
+<div class='score'>Score: -0.7747</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='186' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#186</div>
+<img src='img/apple/000093.jpg' loading='lazy' alt='000093.jpg'>
+<div class='info'>000093.jpg</div>
+<div class='score'>Score: -0.7878</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='187' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#187</div>
+<img src='img/apple/000180.jpg' loading='lazy' alt='000180.jpg'>
+<div class='info'>000180.jpg</div>
+<div class='score'>Score: -0.7913</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='188' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#188</div>
+<img src='bgimg/000327.jpg' loading='lazy' alt='000327.jpg'>
+<div class='info'>000327.jpg</div>
+<div class='score'>Score: -0.8017</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='189' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#189</div>
+<img src='img/apple/000182.jpg' loading='lazy' alt='000182.jpg'>
+<div class='info'>000182.jpg</div>
+<div class='score'>Score: -0.8023</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='190' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#190</div>
+<img src='img/apple/000211.jpg' loading='lazy' alt='000211.jpg'>
+<div class='info'>000211.jpg</div>
+<div class='score'>Score: -0.8049</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='191' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#191</div>
+<img src='bgimg/000810.jpg' loading='lazy' alt='000810.jpg'>
+<div class='info'>000810.jpg</div>
+<div class='score'>Score: -0.8108</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='192' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#192</div>
+<img src='bgimg/001083.jpg' loading='lazy' alt='001083.jpg'>
+<div class='info'>001083.jpg</div>
+<div class='score'>Score: -0.8135</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='193' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#193</div>
+<img src='bgimg/000106.jpg' loading='lazy' alt='000106.jpg'>
+<div class='info'>000106.jpg</div>
+<div class='score'>Score: -0.8172</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='194' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#194</div>
+<img src='img/apple/000143.jpg' loading='lazy' alt='000143.jpg'>
+<div class='info'>000143.jpg</div>
+<div class='score'>Score: -0.8254</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='195' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#195</div>
+<img src='bgimg/000830.jpg' loading='lazy' alt='000830.jpg'>
+<div class='info'>000830.jpg</div>
+<div class='score'>Score: -0.8313</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='196' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#196</div>
+<img src='img/apple/000270.jpg' loading='lazy' alt='000270.jpg'>
+<div class='info'>000270.jpg</div>
+<div class='score'>Score: -0.8321</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='197' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#197</div>
+<img src='bgimg/000308.jpg' loading='lazy' alt='000308.jpg'>
+<div class='info'>000308.jpg</div>
+<div class='score'>Score: -0.8369</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='198' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#198</div>
+<img src='img/apple/000264.jpg' loading='lazy' alt='000264.jpg'>
+<div class='info'>000264.jpg</div>
+<div class='score'>Score: -0.8418</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='199' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#199</div>
+<img src='img/apple/000197.jpg' loading='lazy' alt='000197.jpg'>
+<div class='info'>000197.jpg</div>
+<div class='score'>Score: -0.8494</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='200' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#200</div>
+<img src='bgimg/000331.jpg' loading='lazy' alt='000331.jpg'>
+<div class='info'>000331.jpg</div>
+<div class='score'>Score: -0.8534</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='201' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#201</div>
+<img src='img/apple/000244.jpg' loading='lazy' alt='000244.jpg'>
+<div class='info'>000244.jpg</div>
+<div class='score'>Score: -0.8548</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='202' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#202</div>
+<img src='bgimg/000637.jpg' loading='lazy' alt='000637.jpg'>
+<div class='info'>000637.jpg</div>
+<div class='score'>Score: -0.8561</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='203' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#203</div>
+<img src='bgimg/000827.jpg' loading='lazy' alt='000827.jpg'>
+<div class='info'>000827.jpg</div>
+<div class='score'>Score: -0.8569</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='204' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#204</div>
+<img src='img/apple/000230.jpg' loading='lazy' alt='000230.jpg'>
+<div class='info'>000230.jpg</div>
+<div class='score'>Score: -0.8634</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='205' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#205</div>
+<img src='img/apple/000204.jpg' loading='lazy' alt='000204.jpg'>
+<div class='info'>000204.jpg</div>
+<div class='score'>Score: -0.8650</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='206' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#206</div>
+<img src='bgimg/000035.jpg' loading='lazy' alt='000035.jpg'>
+<div class='info'>000035.jpg</div>
+<div class='score'>Score: -0.8677</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='207' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#207</div>
+<img src='bgimg/000892.jpg' loading='lazy' alt='000892.jpg'>
+<div class='info'>000892.jpg</div>
+<div class='score'>Score: -0.8803</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='208' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#208</div>
+<img src='bgimg/000506.jpg' loading='lazy' alt='000506.jpg'>
+<div class='info'>000506.jpg</div>
+<div class='score'>Score: -0.8826</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='209' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#209</div>
+<img src='img/apple/000232.jpg' loading='lazy' alt='000232.jpg'>
+<div class='info'>000232.jpg</div>
+<div class='score'>Score: -0.8829</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='210' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#210</div>
+<img src='img/apple/000227.jpg' loading='lazy' alt='000227.jpg'>
+<div class='info'>000227.jpg</div>
+<div class='score'>Score: -0.8887</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='211' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#211</div>
+<img src='img/apple/000183.jpg' loading='lazy' alt='000183.jpg'>
+<div class='info'>000183.jpg</div>
+<div class='score'>Score: -0.8915</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='212' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#212</div>
+<img src='img/apple/000269.jpg' loading='lazy' alt='000269.jpg'>
+<div class='info'>000269.jpg</div>
+<div class='score'>Score: -0.8968</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='213' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#213</div>
+<img src='bgimg/000587.jpg' loading='lazy' alt='000587.jpg'>
+<div class='info'>000587.jpg</div>
+<div class='score'>Score: -0.8975</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='214' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#214</div>
+<img src='img/apple/000254.jpg' loading='lazy' alt='000254.jpg'>
+<div class='info'>000254.jpg</div>
+<div class='score'>Score: -0.8999</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='215' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#215</div>
+<img src='bgimg/000543.jpg' loading='lazy' alt='000543.jpg'>
+<div class='info'>000543.jpg</div>
+<div class='score'>Score: -0.9080</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='216' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#216</div>
+<img src='img/apple/000280.jpg' loading='lazy' alt='000280.jpg'>
+<div class='info'>000280.jpg</div>
+<div class='score'>Score: -0.9096</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='217' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#217</div>
+<img src='img/apple/000267.jpg' loading='lazy' alt='000267.jpg'>
+<div class='info'>000267.jpg</div>
+<div class='score'>Score: -0.9174</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='218' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#218</div>
+<img src='bgimg/000891.jpg' loading='lazy' alt='000891.jpg'>
+<div class='info'>000891.jpg</div>
+<div class='score'>Score: -0.9327</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='219' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#219</div>
+<img src='img/apple/000217.jpg' loading='lazy' alt='000217.jpg'>
+<div class='info'>000217.jpg</div>
+<div class='score'>Score: -0.9389</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='220' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#220</div>
+<img src='img/apple/000231.jpg' loading='lazy' alt='000231.jpg'>
+<div class='info'>000231.jpg</div>
+<div class='score'>Score: -0.9391</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='221' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#221</div>
+<img src='bgimg/000185.jpg' loading='lazy' alt='000185.jpg'>
+<div class='info'>000185.jpg</div>
+<div class='score'>Score: -0.9399</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='222' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#222</div>
+<img src='img/apple/000228.jpg' loading='lazy' alt='000228.jpg'>
+<div class='info'>000228.jpg</div>
+<div class='score'>Score: -0.9468</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='223' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#223</div>
+<img src='bgimg/000749.jpg' loading='lazy' alt='000749.jpg'>
+<div class='info'>000749.jpg</div>
+<div class='score'>Score: -0.9470</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='224' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#224</div>
+<img src='img/apple/000212.jpg' loading='lazy' alt='000212.jpg'>
+<div class='info'>000212.jpg</div>
+<div class='score'>Score: -0.9482</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='225' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#225</div>
+<img src='img/apple/000245.jpg' loading='lazy' alt='000245.jpg'>
+<div class='info'>000245.jpg</div>
+<div class='score'>Score: -0.9534</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='226' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#226</div>
+<img src='img/apple/000299.jpg' loading='lazy' alt='000299.jpg'>
+<div class='info'>000299.jpg</div>
+<div class='score'>Score: -0.9549</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='227' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#227</div>
+<img src='bgimg/000287.jpg' loading='lazy' alt='000287.jpg'>
+<div class='info'>000287.jpg</div>
+<div class='score'>Score: -0.9573</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='228' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#228</div>
+<img src='bgimg/000938.jpg' loading='lazy' alt='000938.jpg'>
+<div class='info'>000938.jpg</div>
+<div class='score'>Score: -0.9575</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='229' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#229</div>
+<img src='img/apple/000292.jpg' loading='lazy' alt='000292.jpg'>
+<div class='info'>000292.jpg</div>
+<div class='score'>Score: -0.9691</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='230' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#230</div>
+<img src='img/apple/000241.jpg' loading='lazy' alt='000241.jpg'>
+<div class='info'>000241.jpg</div>
+<div class='score'>Score: -0.9764</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='231' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#231</div>
+<img src='img/apple/000263.jpg' loading='lazy' alt='000263.jpg'>
+<div class='info'>000263.jpg</div>
+<div class='score'>Score: -0.9812</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='232' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#232</div>
+<img src='img/apple/000215.jpg' loading='lazy' alt='000215.jpg'>
+<div class='info'>000215.jpg</div>
+<div class='score'>Score: -0.9821</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='233' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#233</div>
+<img src='bgimg/000288.jpg' loading='lazy' alt='000288.jpg'>
+<div class='info'>000288.jpg</div>
+<div class='score'>Score: -0.9826</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='234' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#234</div>
+<img src='img/apple/000296.jpg' loading='lazy' alt='000296.jpg'>
+<div class='info'>000296.jpg</div>
+<div class='score'>Score: -0.9840</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='235' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#235</div>
+<img src='img/apple/000279.jpg' loading='lazy' alt='000279.jpg'>
+<div class='info'>000279.jpg</div>
+<div class='score'>Score: -0.9991</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='236' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#236</div>
+<img src='img/apple/000242.jpg' loading='lazy' alt='000242.jpg'>
+<div class='info'>000242.jpg</div>
+<div class='score'>Score: -1.0015</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='237' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#237</div>
+<img src='bgimg/000373.jpg' loading='lazy' alt='000373.jpg'>
+<div class='info'>000373.jpg</div>
+<div class='score'>Score: -1.0024</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='238' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#238</div>
+<img src='img/apple/000255.jpg' loading='lazy' alt='000255.jpg'>
+<div class='info'>000255.jpg</div>
+<div class='score'>Score: -1.0105</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='239' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#239</div>
+<img src='img/apple/000209.jpg' loading='lazy' alt='000209.jpg'>
+<div class='info'>000209.jpg</div>
+<div class='score'>Score: -1.0202</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='240' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#240</div>
+<img src='img/apple/000222.jpg' loading='lazy' alt='000222.jpg'>
+<div class='info'>000222.jpg</div>
+<div class='score'>Score: -1.0209</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='241' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#241</div>
+<img src='bgimg/000781.jpg' loading='lazy' alt='000781.jpg'>
+<div class='info'>000781.jpg</div>
+<div class='score'>Score: -1.0230</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='242' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#242</div>
+<img src='img/apple/000224.jpg' loading='lazy' alt='000224.jpg'>
+<div class='info'>000224.jpg</div>
+<div class='score'>Score: -1.0238</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='243' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#243</div>
+<img src='bgimg/000314.jpg' loading='lazy' alt='000314.jpg'>
+<div class='info'>000314.jpg</div>
+<div class='score'>Score: -1.0246</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='244' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#244</div>
+<img src='img/apple/000207.jpg' loading='lazy' alt='000207.jpg'>
+<div class='info'>000207.jpg</div>
+<div class='score'>Score: -1.0263</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='245' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#245</div>
+<img src='img/apple/000220.jpg' loading='lazy' alt='000220.jpg'>
+<div class='info'>000220.jpg</div>
+<div class='score'>Score: -1.0273</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='246' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#246</div>
+<img src='bgimg/000042.jpg' loading='lazy' alt='000042.jpg'>
+<div class='info'>000042.jpg</div>
+<div class='score'>Score: -1.0282</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='247' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#247</div>
+<img src='bgimg/000569.jpg' loading='lazy' alt='000569.jpg'>
+<div class='info'>000569.jpg</div>
+<div class='score'>Score: -1.0319</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='248' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#248</div>
+<img src='bgimg/000636.jpg' loading='lazy' alt='000636.jpg'>
+<div class='info'>000636.jpg</div>
+<div class='score'>Score: -1.0337</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='249' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#249</div>
+<img src='img/apple/000172.jpg' loading='lazy' alt='000172.jpg'>
+<div class='info'>000172.jpg</div>
+<div class='score'>Score: -1.0353</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='250' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#250</div>
+<img src='img/apple/000289.jpg' loading='lazy' alt='000289.jpg'>
+<div class='info'>000289.jpg</div>
+<div class='score'>Score: -1.0362</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='251' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#251</div>
+<img src='bgimg/000582.jpg' loading='lazy' alt='000582.jpg'>
+<div class='info'>000582.jpg</div>
+<div class='score'>Score: -1.0451</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='252' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#252</div>
+<img src='img/apple/000206.jpg' loading='lazy' alt='000206.jpg'>
+<div class='info'>000206.jpg</div>
+<div class='score'>Score: -1.0487</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='253' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#253</div>
+<img src='img/apple/000246.jpg' loading='lazy' alt='000246.jpg'>
+<div class='info'>000246.jpg</div>
+<div class='score'>Score: -1.0497</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='254' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#254</div>
+<img src='bgimg/000378.jpg' loading='lazy' alt='000378.jpg'>
+<div class='info'>000378.jpg</div>
+<div class='score'>Score: -1.0522</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='255' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#255</div>
+<img src='img/apple/000266.jpg' loading='lazy' alt='000266.jpg'>
+<div class='info'>000266.jpg</div>
+<div class='score'>Score: -1.0537</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='256' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#256</div>
+<img src='img/apple/000208.jpg' loading='lazy' alt='000208.jpg'>
+<div class='info'>000208.jpg</div>
+<div class='score'>Score: -1.0541</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='257' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#257</div>
+<img src='bgimg/000779.jpg' loading='lazy' alt='000779.jpg'>
+<div class='info'>000779.jpg</div>
+<div class='score'>Score: -1.0568</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='258' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#258</div>
+<img src='img/apple/000268.jpg' loading='lazy' alt='000268.jpg'>
+<div class='info'>000268.jpg</div>
+<div class='score'>Score: -1.0597</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='259' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#259</div>
+<img src='bgimg/000680.jpg' loading='lazy' alt='000680.jpg'>
+<div class='info'>000680.jpg</div>
+<div class='score'>Score: -1.0601</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='260' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#260</div>
+<img src='bgimg/000909.jpg' loading='lazy' alt='000909.jpg'>
+<div class='info'>000909.jpg</div>
+<div class='score'>Score: -1.0633</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='261' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#261</div>
+<img src='bgimg/000927.jpg' loading='lazy' alt='000927.jpg'>
+<div class='info'>000927.jpg</div>
+<div class='score'>Score: -1.0645</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='262' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#262</div>
+<img src='img/apple/000258.jpg' loading='lazy' alt='000258.jpg'>
+<div class='info'>000258.jpg</div>
+<div class='score'>Score: -1.0711</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='263' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#263</div>
+<img src='bgimg/001084.jpg' loading='lazy' alt='001084.jpg'>
+<div class='info'>001084.jpg</div>
+<div class='score'>Score: -1.0726</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='264' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#264</div>
+<img src='img/apple/000068.jpg' loading='lazy' alt='000068.jpg'>
+<div class='info'>000068.jpg</div>
+<div class='score'>Score: -1.0742</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='265' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#265</div>
+<img src='bgimg/000889.jpg' loading='lazy' alt='000889.jpg'>
+<div class='info'>000889.jpg</div>
+<div class='score'>Score: -1.0780</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='266' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#266</div>
+<img src='img/apple/000261.jpg' loading='lazy' alt='000261.jpg'>
+<div class='info'>000261.jpg</div>
+<div class='score'>Score: -1.0792</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='267' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#267</div>
+<img src='img/apple/000110.jpg' loading='lazy' alt='000110.jpg'>
+<div class='info'>000110.jpg</div>
+<div class='score'>Score: -1.0865</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='268' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#268</div>
+<img src='bgimg/000977.jpg' loading='lazy' alt='000977.jpg'>
+<div class='info'>000977.jpg</div>
+<div class='score'>Score: -1.0887</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='269' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#269</div>
+<img src='img/apple/000169.jpg' loading='lazy' alt='000169.jpg'>
+<div class='info'>000169.jpg</div>
+<div class='score'>Score: -1.1066</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='270' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#270</div>
+<img src='img/apple/000259.jpg' loading='lazy' alt='000259.jpg'>
+<div class='info'>000259.jpg</div>
+<div class='score'>Score: -1.1151</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='271' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#271</div>
+<img src='bgimg/000856.jpg' loading='lazy' alt='000856.jpg'>
+<div class='info'>000856.jpg</div>
+<div class='score'>Score: -1.1244</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='272' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#272</div>
+<img src='img/apple/000192.jpg' loading='lazy' alt='000192.jpg'>
+<div class='info'>000192.jpg</div>
+<div class='score'>Score: -1.1251</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='273' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#273</div>
+<img src='bgimg/000525.jpg' loading='lazy' alt='000525.jpg'>
+<div class='info'>000525.jpg</div>
+<div class='score'>Score: -1.1268</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='274' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#274</div>
+<img src='bgimg/000706.jpg' loading='lazy' alt='000706.jpg'>
+<div class='info'>000706.jpg</div>
+<div class='score'>Score: -1.1272</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='275' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#275</div>
+<img src='img/apple/000283.jpg' loading='lazy' alt='000283.jpg'>
+<div class='info'>000283.jpg</div>
+<div class='score'>Score: -1.1286</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='276' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#276</div>
+<img src='bgimg/000821.jpg' loading='lazy' alt='000821.jpg'>
+<div class='info'>000821.jpg</div>
+<div class='score'>Score: -1.1339</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='277' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#277</div>
+<img src='img/apple/000229.jpg' loading='lazy' alt='000229.jpg'>
+<div class='info'>000229.jpg</div>
+<div class='score'>Score: -1.1465</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='278' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#278</div>
+<img src='img/apple/000286.jpg' loading='lazy' alt='000286.jpg'>
+<div class='info'>000286.jpg</div>
+<div class='score'>Score: -1.1555</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='279' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#279</div>
+<img src='img/apple/000247.jpg' loading='lazy' alt='000247.jpg'>
+<div class='info'>000247.jpg</div>
+<div class='score'>Score: -1.1555</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='280' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#280</div>
+<img src='bgimg/000269.jpg' loading='lazy' alt='000269.jpg'>
+<div class='info'>000269.jpg</div>
+<div class='score'>Score: -1.1586</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='281' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#281</div>
+<img src='bgimg/000990.jpg' loading='lazy' alt='000990.jpg'>
+<div class='info'>000990.jpg</div>
+<div class='score'>Score: -1.1718</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='282' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#282</div>
+<img src='img/apple/000202.jpg' loading='lazy' alt='000202.jpg'>
+<div class='info'>000202.jpg</div>
+<div class='score'>Score: -1.1765</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='283' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#283</div>
+<img src='bgimg/000200.jpg' loading='lazy' alt='000200.jpg'>
+<div class='info'>000200.jpg</div>
+<div class='score'>Score: -1.1824</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='284' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#284</div>
+<img src='bgimg/000767.jpg' loading='lazy' alt='000767.jpg'>
+<div class='info'>000767.jpg</div>
+<div class='score'>Score: -1.1916</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='285' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#285</div>
+<img src='bgimg/001032.jpg' loading='lazy' alt='001032.jpg'>
+<div class='info'>001032.jpg</div>
+<div class='score'>Score: -1.1974</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='286' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#286</div>
+<img src='bgimg/000380.jpg' loading='lazy' alt='000380.jpg'>
+<div class='info'>000380.jpg</div>
+<div class='score'>Score: -1.1990</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='287' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#287</div>
+<img src='bgimg/000740.jpg' loading='lazy' alt='000740.jpg'>
+<div class='info'>000740.jpg</div>
+<div class='score'>Score: -1.2022</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='288' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#288</div>
+<img src='bgimg/000508.jpg' loading='lazy' alt='000508.jpg'>
+<div class='info'>000508.jpg</div>
+<div class='score'>Score: -1.2052</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='289' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#289</div>
+<img src='img/apple/000272.jpg' loading='lazy' alt='000272.jpg'>
+<div class='info'>000272.jpg</div>
+<div class='score'>Score: -1.2061</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='290' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#290</div>
+<img src='img/apple/000260.jpg' loading='lazy' alt='000260.jpg'>
+<div class='info'>000260.jpg</div>
+<div class='score'>Score: -1.2098</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='291' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#291</div>
+<img src='bgimg/000304.jpg' loading='lazy' alt='000304.jpg'>
+<div class='info'>000304.jpg</div>
+<div class='score'>Score: -1.2146</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='292' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#292</div>
+<img src='bgimg/001102.jpg' loading='lazy' alt='001102.jpg'>
+<div class='info'>001102.jpg</div>
+<div class='score'>Score: -1.2274</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='293' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#293</div>
+<img src='img/apple/000243.jpg' loading='lazy' alt='000243.jpg'>
+<div class='info'>000243.jpg</div>
+<div class='score'>Score: -1.2276</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='294' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#294</div>
+<img src='bgimg/000254.jpg' loading='lazy' alt='000254.jpg'>
+<div class='info'>000254.jpg</div>
+<div class='score'>Score: -1.2280</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='295' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#295</div>
+<img src='img/apple/000282.jpg' loading='lazy' alt='000282.jpg'>
+<div class='info'>000282.jpg</div>
+<div class='score'>Score: -1.2317</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='296' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#296</div>
+<img src='bgimg/000707.jpg' loading='lazy' alt='000707.jpg'>
+<div class='info'>000707.jpg</div>
+<div class='score'>Score: -1.2356</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='297' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#297</div>
+<img src='bgimg/000160.jpg' loading='lazy' alt='000160.jpg'>
+<div class='info'>000160.jpg</div>
+<div class='score'>Score: -1.2423</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='298' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#298</div>
+<img src='bgimg/000965.jpg' loading='lazy' alt='000965.jpg'>
+<div class='info'>000965.jpg</div>
+<div class='score'>Score: -1.2437</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='299' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#299</div>
+<img src='img/apple/000235.jpg' loading='lazy' alt='000235.jpg'>
+<div class='info'>000235.jpg</div>
+<div class='score'>Score: -1.2444</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='300' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#300</div>
+<img src='bgimg/000634.jpg' loading='lazy' alt='000634.jpg'>
+<div class='info'>000634.jpg</div>
+<div class='score'>Score: -1.2549</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='301' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#301</div>
+<img src='bgimg/000446.jpg' loading='lazy' alt='000446.jpg'>
+<div class='info'>000446.jpg</div>
+<div class='score'>Score: -1.2614</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='302' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#302</div>
+<img src='bgimg/000815.jpg' loading='lazy' alt='000815.jpg'>
+<div class='info'>000815.jpg</div>
+<div class='score'>Score: -1.2636</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='303' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#303</div>
+<img src='img/apple/000177.jpg' loading='lazy' alt='000177.jpg'>
+<div class='info'>000177.jpg</div>
+<div class='score'>Score: -1.2643</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='304' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#304</div>
+<img src='img/apple/000281.jpg' loading='lazy' alt='000281.jpg'>
+<div class='info'>000281.jpg</div>
+<div class='score'>Score: -1.2658</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='305' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#305</div>
+<img src='bgimg/000459.jpg' loading='lazy' alt='000459.jpg'>
+<div class='info'>000459.jpg</div>
+<div class='score'>Score: -1.2687</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='306' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#306</div>
+<img src='bgimg/000503.jpg' loading='lazy' alt='000503.jpg'>
+<div class='info'>000503.jpg</div>
+<div class='score'>Score: -1.2721</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='307' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#307</div>
+<img src='bgimg/000284.jpg' loading='lazy' alt='000284.jpg'>
+<div class='info'>000284.jpg</div>
+<div class='score'>Score: -1.2733</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='308' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#308</div>
+<img src='bgimg/000126.jpg' loading='lazy' alt='000126.jpg'>
+<div class='info'>000126.jpg</div>
+<div class='score'>Score: -1.2779</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='309' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#309</div>
+<img src='bgimg/000858.jpg' loading='lazy' alt='000858.jpg'>
+<div class='info'>000858.jpg</div>
+<div class='score'>Score: -1.2783</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='310' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#310</div>
+<img src='bgimg/001071.jpg' loading='lazy' alt='001071.jpg'>
+<div class='info'>001071.jpg</div>
+<div class='score'>Score: -1.2826</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='311' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#311</div>
+<img src='bgimg/000759.jpg' loading='lazy' alt='000759.jpg'>
+<div class='info'>000759.jpg</div>
+<div class='score'>Score: -1.2836</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='312' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#312</div>
+<img src='img/apple/000278.jpg' loading='lazy' alt='000278.jpg'>
+<div class='info'>000278.jpg</div>
+<div class='score'>Score: -1.2837</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='313' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#313</div>
+<img src='bgimg/001025.jpg' loading='lazy' alt='001025.jpg'>
+<div class='info'>001025.jpg</div>
+<div class='score'>Score: -1.2842</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='314' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#314</div>
+<img src='img/apple/000275.jpg' loading='lazy' alt='000275.jpg'>
+<div class='info'>000275.jpg</div>
+<div class='score'>Score: -1.2898</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='315' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#315</div>
+<img src='img/apple/000213.jpg' loading='lazy' alt='000213.jpg'>
+<div class='info'>000213.jpg</div>
+<div class='score'>Score: -1.2898</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='316' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#316</div>
+<img src='bgimg/000879.jpg' loading='lazy' alt='000879.jpg'>
+<div class='info'>000879.jpg</div>
+<div class='score'>Score: -1.2915</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='317' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#317</div>
+<img src='img/apple/000288.jpg' loading='lazy' alt='000288.jpg'>
+<div class='info'>000288.jpg</div>
+<div class='score'>Score: -1.2934</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='318' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#318</div>
+<img src='img/apple/000249.jpg' loading='lazy' alt='000249.jpg'>
+<div class='info'>000249.jpg</div>
+<div class='score'>Score: -1.2935</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='319' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#319</div>
+<img src='bgimg/000358.jpg' loading='lazy' alt='000358.jpg'>
+<div class='info'>000358.jpg</div>
+<div class='score'>Score: -1.2990</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='320' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#320</div>
+<img src='bgimg/000393.jpg' loading='lazy' alt='000393.jpg'>
+<div class='info'>000393.jpg</div>
+<div class='score'>Score: -1.3027</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='321' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#321</div>
+<img src='img/apple/000276.jpg' loading='lazy' alt='000276.jpg'>
+<div class='info'>000276.jpg</div>
+<div class='score'>Score: -1.3110</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='322' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#322</div>
+<img src='img/apple/000256.jpg' loading='lazy' alt='000256.jpg'>
+<div class='info'>000256.jpg</div>
+<div class='score'>Score: -1.3205</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='323' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#323</div>
+<img src='bgimg/000470.jpg' loading='lazy' alt='000470.jpg'>
+<div class='info'>000470.jpg</div>
+<div class='score'>Score: -1.3211</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='324' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#324</div>
+<img src='bgimg/000452.jpg' loading='lazy' alt='000452.jpg'>
+<div class='info'>000452.jpg</div>
+<div class='score'>Score: -1.3296</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='325' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#325</div>
+<img src='bgimg/000153.jpg' loading='lazy' alt='000153.jpg'>
+<div class='info'>000153.jpg</div>
+<div class='score'>Score: -1.3331</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='326' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#326</div>
+<img src='img/apple/000218.jpg' loading='lazy' alt='000218.jpg'>
+<div class='info'>000218.jpg</div>
+<div class='score'>Score: -1.3363</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='327' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#327</div>
+<img src='bgimg/000094.jpg' loading='lazy' alt='000094.jpg'>
+<div class='info'>000094.jpg</div>
+<div class='score'>Score: -1.3387</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='328' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#328</div>
+<img src='img/apple/000271.jpg' loading='lazy' alt='000271.jpg'>
+<div class='info'>000271.jpg</div>
+<div class='score'>Score: -1.3426</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='329' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#329</div>
+<img src='img/apple/000274.jpg' loading='lazy' alt='000274.jpg'>
+<div class='info'>000274.jpg</div>
+<div class='score'>Score: -1.3432</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='330' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#330</div>
+<img src='img/apple/000205.jpg' loading='lazy' alt='000205.jpg'>
+<div class='info'>000205.jpg</div>
+<div class='score'>Score: -1.3566</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='331' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#331</div>
+<img src='bgimg/001011.jpg' loading='lazy' alt='001011.jpg'>
+<div class='info'>001011.jpg</div>
+<div class='score'>Score: -1.3597</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='332' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#332</div>
+<img src='bgimg/000733.jpg' loading='lazy' alt='000733.jpg'>
+<div class='info'>000733.jpg</div>
+<div class='score'>Score: -1.3615</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='333' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#333</div>
+<img src='bgimg/000656.jpg' loading='lazy' alt='000656.jpg'>
+<div class='info'>000656.jpg</div>
+<div class='score'>Score: -1.3654</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='334' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#334</div>
+<img src='bgimg/001018.jpg' loading='lazy' alt='001018.jpg'>
+<div class='info'>001018.jpg</div>
+<div class='score'>Score: -1.3670</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='335' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#335</div>
+<img src='bgimg/000778.jpg' loading='lazy' alt='000778.jpg'>
+<div class='info'>000778.jpg</div>
+<div class='score'>Score: -1.3709</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='336' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#336</div>
+<img src='img/apple/000226.jpg' loading='lazy' alt='000226.jpg'>
+<div class='info'>000226.jpg</div>
+<div class='score'>Score: -1.3720</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='337' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#337</div>
+<img src='img/apple/000277.jpg' loading='lazy' alt='000277.jpg'>
+<div class='info'>000277.jpg</div>
+<div class='score'>Score: -1.3740</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='338' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#338</div>
+<img src='bgimg/000502.jpg' loading='lazy' alt='000502.jpg'>
+<div class='info'>000502.jpg</div>
+<div class='score'>Score: -1.3744</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='339' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#339</div>
+<img src='bgimg/000974.jpg' loading='lazy' alt='000974.jpg'>
+<div class='info'>000974.jpg</div>
+<div class='score'>Score: -1.3796</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='340' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#340</div>
+<img src='bgimg/000852.jpg' loading='lazy' alt='000852.jpg'>
+<div class='info'>000852.jpg</div>
+<div class='score'>Score: -1.3826</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='341' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#341</div>
+<img src='bgimg/000639.jpg' loading='lazy' alt='000639.jpg'>
+<div class='info'>000639.jpg</div>
+<div class='score'>Score: -1.3887</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='342' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#342</div>
+<img src='img/apple/000248.jpg' loading='lazy' alt='000248.jpg'>
+<div class='info'>000248.jpg</div>
+<div class='score'>Score: -1.3892</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='343' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#343</div>
+<img src='bgimg/000322.jpg' loading='lazy' alt='000322.jpg'>
+<div class='info'>000322.jpg</div>
+<div class='score'>Score: -1.3897</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='344' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#344</div>
+<img src='bgimg/000534.jpg' loading='lazy' alt='000534.jpg'>
+<div class='info'>000534.jpg</div>
+<div class='score'>Score: -1.3991</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='345' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#345</div>
+<img src='bgimg/000552.jpg' loading='lazy' alt='000552.jpg'>
+<div class='info'>000552.jpg</div>
+<div class='score'>Score: -1.3992</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='346' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#346</div>
+<img src='bgimg/000750.jpg' loading='lazy' alt='000750.jpg'>
+<div class='info'>000750.jpg</div>
+<div class='score'>Score: -1.4133</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='347' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#347</div>
+<img src='img/apple/000250.jpg' loading='lazy' alt='000250.jpg'>
+<div class='info'>000250.jpg</div>
+<div class='score'>Score: -1.4227</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='348' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#348</div>
+<img src='bgimg/000580.jpg' loading='lazy' alt='000580.jpg'>
+<div class='info'>000580.jpg</div>
+<div class='score'>Score: -1.4238</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='349' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#349</div>
+<img src='img/apple/000237.jpg' loading='lazy' alt='000237.jpg'>
+<div class='info'>000237.jpg</div>
+<div class='score'>Score: -1.4240</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='350' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#350</div>
+<img src='bgimg/000188.jpg' loading='lazy' alt='000188.jpg'>
+<div class='info'>000188.jpg</div>
+<div class='score'>Score: -1.4259</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='351' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#351</div>
+<img src='img/apple/000290.jpg' loading='lazy' alt='000290.jpg'>
+<div class='info'>000290.jpg</div>
+<div class='score'>Score: -1.4342</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='352' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#352</div>
+<img src='bgimg/000848.jpg' loading='lazy' alt='000848.jpg'>
+<div class='info'>000848.jpg</div>
+<div class='score'>Score: -1.4489</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='353' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#353</div>
+<img src='bgimg/000886.jpg' loading='lazy' alt='000886.jpg'>
+<div class='info'>000886.jpg</div>
+<div class='score'>Score: -1.4571</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='354' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#354</div>
+<img src='bgimg/000029.jpg' loading='lazy' alt='000029.jpg'>
+<div class='info'>000029.jpg</div>
+<div class='score'>Score: -1.4687</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='355' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#355</div>
+<img src='bgimg/000546.jpg' loading='lazy' alt='000546.jpg'>
+<div class='info'>000546.jpg</div>
+<div class='score'>Score: -1.4805</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='356' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#356</div>
+<img src='bgimg/000002.jpg' loading='lazy' alt='000002.jpg'>
+<div class='info'>000002.jpg</div>
+<div class='score'>Score: -1.4825</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='357' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#357</div>
+<img src='bgimg/000132.jpg' loading='lazy' alt='000132.jpg'>
+<div class='info'>000132.jpg</div>
+<div class='score'>Score: -1.5050</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='358' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#358</div>
+<img src='bgimg/000597.jpg' loading='lazy' alt='000597.jpg'>
+<div class='info'>000597.jpg</div>
+<div class='score'>Score: -1.5076</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='359' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#359</div>
+<img src='bgimg/000751.jpg' loading='lazy' alt='000751.jpg'>
+<div class='info'>000751.jpg</div>
+<div class='score'>Score: -1.5107</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='360' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#360</div>
+<img src='img/apple/000136.jpg' loading='lazy' alt='000136.jpg'>
+<div class='info'>000136.jpg</div>
+<div class='score'>Score: -1.5170</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='361' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#361</div>
+<img src='bgimg/000574.jpg' loading='lazy' alt='000574.jpg'>
+<div class='info'>000574.jpg</div>
+<div class='score'>Score: -1.5192</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='362' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#362</div>
+<img src='bgimg/000727.jpg' loading='lazy' alt='000727.jpg'>
+<div class='info'>000727.jpg</div>
+<div class='score'>Score: -1.5255</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='363' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#363</div>
+<img src='img/apple/000193.jpg' loading='lazy' alt='000193.jpg'>
+<div class='info'>000193.jpg</div>
+<div class='score'>Score: -1.5279</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='364' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#364</div>
+<img src='bgimg/001051.jpg' loading='lazy' alt='001051.jpg'>
+<div class='info'>001051.jpg</div>
+<div class='score'>Score: -1.5299</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='365' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#365</div>
+<img src='bgimg/000668.jpg' loading='lazy' alt='000668.jpg'>
+<div class='info'>000668.jpg</div>
+<div class='score'>Score: -1.5300</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='366' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#366</div>
+<img src='bgimg/000407.jpg' loading='lazy' alt='000407.jpg'>
+<div class='info'>000407.jpg</div>
+<div class='score'>Score: -1.5308</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='367' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#367</div>
+<img src='bgimg/000481.jpg' loading='lazy' alt='000481.jpg'>
+<div class='info'>000481.jpg</div>
+<div class='score'>Score: -1.5354</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='368' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#368</div>
+<img src='bgimg/000068.jpg' loading='lazy' alt='000068.jpg'>
+<div class='info'>000068.jpg</div>
+<div class='score'>Score: -1.5460</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='369' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#369</div>
+<img src='bgimg/000864.jpg' loading='lazy' alt='000864.jpg'>
+<div class='info'>000864.jpg</div>
+<div class='score'>Score: -1.5488</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='370' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#370</div>
+<img src='bgimg/000785.jpg' loading='lazy' alt='000785.jpg'>
+<div class='info'>000785.jpg</div>
+<div class='score'>Score: -1.5568</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='371' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#371</div>
+<img src='bgimg/000333.jpg' loading='lazy' alt='000333.jpg'>
+<div class='info'>000333.jpg</div>
+<div class='score'>Score: -1.5641</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='372' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#372</div>
+<img src='bgimg/000334.jpg' loading='lazy' alt='000334.jpg'>
+<div class='info'>000334.jpg</div>
+<div class='score'>Score: -1.5665</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='373' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#373</div>
+<img src='img/apple/000223.jpg' loading='lazy' alt='000223.jpg'>
+<div class='info'>000223.jpg</div>
+<div class='score'>Score: -1.5680</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='374' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#374</div>
+<img src='bgimg/001061.jpg' loading='lazy' alt='001061.jpg'>
+<div class='info'>001061.jpg</div>
+<div class='score'>Score: -1.5734</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='375' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#375</div>
+<img src='bgimg/001096.jpg' loading='lazy' alt='001096.jpg'>
+<div class='info'>001096.jpg</div>
+<div class='score'>Score: -1.5800</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='376' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#376</div>
+<img src='bgimg/000263.jpg' loading='lazy' alt='000263.jpg'>
+<div class='info'>000263.jpg</div>
+<div class='score'>Score: -1.5842</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='377' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#377</div>
+<img src='bgimg/000006.jpg' loading='lazy' alt='000006.jpg'>
+<div class='info'>000006.jpg</div>
+<div class='score'>Score: -1.5904</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='378' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#378</div>
+<img src='bgimg/000615.jpg' loading='lazy' alt='000615.jpg'>
+<div class='info'>000615.jpg</div>
+<div class='score'>Score: -1.5942</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='379' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#379</div>
+<img src='bgimg/000561.jpg' loading='lazy' alt='000561.jpg'>
+<div class='info'>000561.jpg</div>
+<div class='score'>Score: -1.6011</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='380' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#380</div>
+<img src='bgimg/001060.jpg' loading='lazy' alt='001060.jpg'>
+<div class='info'>001060.jpg</div>
+<div class='score'>Score: -1.6027</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='381' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#381</div>
+<img src='bgimg/001125.jpg' loading='lazy' alt='001125.jpg'>
+<div class='info'>001125.jpg</div>
+<div class='score'>Score: -1.6062</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='382' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#382</div>
+<img src='bgimg/000625.jpg' loading='lazy' alt='000625.jpg'>
+<div class='info'>000625.jpg</div>
+<div class='score'>Score: -1.6087</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='383' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#383</div>
+<img src='bgimg/000510.jpg' loading='lazy' alt='000510.jpg'>
+<div class='info'>000510.jpg</div>
+<div class='score'>Score: -1.6204</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='384' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#384</div>
+<img src='bgimg/000143.jpg' loading='lazy' alt='000143.jpg'>
+<div class='info'>000143.jpg</div>
+<div class='score'>Score: -1.6207</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='385' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#385</div>
+<img src='bgimg/000914.jpg' loading='lazy' alt='000914.jpg'>
+<div class='info'>000914.jpg</div>
+<div class='score'>Score: -1.6311</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='386' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#386</div>
+<img src='bgimg/001043.jpg' loading='lazy' alt='001043.jpg'>
+<div class='info'>001043.jpg</div>
+<div class='score'>Score: -1.6391</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='387' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#387</div>
+<img src='bgimg/000851.jpg' loading='lazy' alt='000851.jpg'>
+<div class='info'>000851.jpg</div>
+<div class='score'>Score: -1.6466</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='388' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#388</div>
+<img src='bgimg/000124.jpg' loading='lazy' alt='000124.jpg'>
+<div class='info'>000124.jpg</div>
+<div class='score'>Score: -1.6474</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='389' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#389</div>
+<img src='bgimg/000793.jpg' loading='lazy' alt='000793.jpg'>
+<div class='info'>000793.jpg</div>
+<div class='score'>Score: -1.6479</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='390' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#390</div>
+<img src='bgimg/001082.jpg' loading='lazy' alt='001082.jpg'>
+<div class='info'>001082.jpg</div>
+<div class='score'>Score: -1.6540</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='391' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#391</div>
+<img src='bgimg/000281.jpg' loading='lazy' alt='000281.jpg'>
+<div class='info'>000281.jpg</div>
+<div class='score'>Score: -1.6558</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='392' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#392</div>
+<img src='bgimg/000591.jpg' loading='lazy' alt='000591.jpg'>
+<div class='info'>000591.jpg</div>
+<div class='score'>Score: -1.6610</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='393' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#393</div>
+<img src='bgimg/001053.jpg' loading='lazy' alt='001053.jpg'>
+<div class='info'>001053.jpg</div>
+<div class='score'>Score: -1.6646</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='394' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#394</div>
+<img src='bgimg/000550.jpg' loading='lazy' alt='000550.jpg'>
+<div class='info'>000550.jpg</div>
+<div class='score'>Score: -1.6727</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='395' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#395</div>
+<img src='bgimg/000847.jpg' loading='lazy' alt='000847.jpg'>
+<div class='info'>000847.jpg</div>
+<div class='score'>Score: -1.6837</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='396' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#396</div>
+<img src='bgimg/001116.jpg' loading='lazy' alt='001116.jpg'>
+<div class='info'>001116.jpg</div>
+<div class='score'>Score: -1.6880</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='397' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#397</div>
+<img src='bgimg/000758.jpg' loading='lazy' alt='000758.jpg'>
+<div class='info'>000758.jpg</div>
+<div class='score'>Score: -1.6935</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='398' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#398</div>
+<img src='bgimg/000250.jpg' loading='lazy' alt='000250.jpg'>
+<div class='info'>000250.jpg</div>
+<div class='score'>Score: -1.7037</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='399' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#399</div>
+<img src='bgimg/000418.jpg' loading='lazy' alt='000418.jpg'>
+<div class='info'>000418.jpg</div>
+<div class='score'>Score: -1.7177</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='400' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#400</div>
+<img src='bgimg/000110.jpg' loading='lazy' alt='000110.jpg'>
+<div class='info'>000110.jpg</div>
+<div class='score'>Score: -1.7188</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='401' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#401</div>
+<img src='bgimg/000960.jpg' loading='lazy' alt='000960.jpg'>
+<div class='info'>000960.jpg</div>
+<div class='score'>Score: -1.7216</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='402' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#402</div>
+<img src='bgimg/001106.jpg' loading='lazy' alt='001106.jpg'>
+<div class='info'>001106.jpg</div>
+<div class='score'>Score: -1.7309</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='403' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#403</div>
+<img src='bgimg/000571.jpg' loading='lazy' alt='000571.jpg'>
+<div class='info'>000571.jpg</div>
+<div class='score'>Score: -1.7318</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='404' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#404</div>
+<img src='bgimg/000129.jpg' loading='lazy' alt='000129.jpg'>
+<div class='info'>000129.jpg</div>
+<div class='score'>Score: -1.7380</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='405' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#405</div>
+<img src='img/apple/000238.jpg' loading='lazy' alt='000238.jpg'>
+<div class='info'>000238.jpg</div>
+<div class='score'>Score: -1.7448</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='406' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#406</div>
+<img src='bgimg/001006.jpg' loading='lazy' alt='001006.jpg'>
+<div class='info'>001006.jpg</div>
+<div class='score'>Score: -1.7470</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='407' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#407</div>
+<img src='bgimg/000310.jpg' loading='lazy' alt='000310.jpg'>
+<div class='info'>000310.jpg</div>
+<div class='score'>Score: -1.7503</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='408' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#408</div>
+<img src='bgimg/000968.jpg' loading='lazy' alt='000968.jpg'>
+<div class='info'>000968.jpg</div>
+<div class='score'>Score: -1.7561</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='409' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#409</div>
+<img src='bgimg/000338.jpg' loading='lazy' alt='000338.jpg'>
+<div class='info'>000338.jpg</div>
+<div class='score'>Score: -1.7654</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='410' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#410</div>
+<img src='bgimg/000817.jpg' loading='lazy' alt='000817.jpg'>
+<div class='info'>000817.jpg</div>
+<div class='score'>Score: -1.7662</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='411' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#411</div>
+<img src='bgimg/000038.jpg' loading='lazy' alt='000038.jpg'>
+<div class='info'>000038.jpg</div>
+<div class='score'>Score: -1.7790</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='412' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#412</div>
+<img src='bgimg/000786.jpg' loading='lazy' alt='000786.jpg'>
+<div class='info'>000786.jpg</div>
+<div class='score'>Score: -1.7862</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='413' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#413</div>
+<img src='img/apple/000298.jpg' loading='lazy' alt='000298.jpg'>
+<div class='info'>000298.jpg</div>
+<div class='score'>Score: -1.7880</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='414' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#414</div>
+<img src='bgimg/000660.jpg' loading='lazy' alt='000660.jpg'>
+<div class='info'>000660.jpg</div>
+<div class='score'>Score: -1.7915</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='415' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#415</div>
+<img src='bgimg/000166.jpg' loading='lazy' alt='000166.jpg'>
+<div class='info'>000166.jpg</div>
+<div class='score'>Score: -1.7919</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='416' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#416</div>
+<img src='bgimg/000922.jpg' loading='lazy' alt='000922.jpg'>
+<div class='info'>000922.jpg</div>
+<div class='score'>Score: -1.7924</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='417' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#417</div>
+<img src='bgimg/001126.jpg' loading='lazy' alt='001126.jpg'>
+<div class='info'>001126.jpg</div>
+<div class='score'>Score: -1.8155</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='418' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#418</div>
+<img src='bgimg/001117.jpg' loading='lazy' alt='001117.jpg'>
+<div class='info'>001117.jpg</div>
+<div class='score'>Score: -1.8193</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='419' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#419</div>
+<img src='bgimg/000268.jpg' loading='lazy' alt='000268.jpg'>
+<div class='info'>000268.jpg</div>
+<div class='score'>Score: -1.8320</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='420' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#420</div>
+<img src='bgimg/000085.jpg' loading='lazy' alt='000085.jpg'>
+<div class='info'>000085.jpg</div>
+<div class='score'>Score: -1.8461</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='421' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#421</div>
+<img src='bgimg/001031.jpg' loading='lazy' alt='001031.jpg'>
+<div class='info'>001031.jpg</div>
+<div class='score'>Score: -1.8508</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='422' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#422</div>
+<img src='bgimg/000738.jpg' loading='lazy' alt='000738.jpg'>
+<div class='info'>000738.jpg</div>
+<div class='score'>Score: -1.8551</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='423' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#423</div>
+<img src='bgimg/000463.jpg' loading='lazy' alt='000463.jpg'>
+<div class='info'>000463.jpg</div>
+<div class='score'>Score: -1.8668</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='424' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#424</div>
+<img src='bgimg/000549.jpg' loading='lazy' alt='000549.jpg'>
+<div class='info'>000549.jpg</div>
+<div class='score'>Score: -1.8879</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='425' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#425</div>
+<img src='bgimg/000189.jpg' loading='lazy' alt='000189.jpg'>
+<div class='info'>000189.jpg</div>
+<div class='score'>Score: -1.8951</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='426' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#426</div>
+<img src='bgimg/001041.jpg' loading='lazy' alt='001041.jpg'>
+<div class='info'>001041.jpg</div>
+<div class='score'>Score: -1.9090</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='427' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#427</div>
+<img src='bgimg/000593.jpg' loading='lazy' alt='000593.jpg'>
+<div class='info'>000593.jpg</div>
+<div class='score'>Score: -1.9345</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='428' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#428</div>
+<img src='bgimg/000754.jpg' loading='lazy' alt='000754.jpg'>
+<div class='info'>000754.jpg</div>
+<div class='score'>Score: -1.9351</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='429' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#429</div>
+<img src='bgimg/000491.jpg' loading='lazy' alt='000491.jpg'>
+<div class='info'>000491.jpg</div>
+<div class='score'>Score: -1.9652</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='430' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#430</div>
+<img src='bgimg/000180.jpg' loading='lazy' alt='000180.jpg'>
+<div class='info'>000180.jpg</div>
+<div class='score'>Score: -1.9674</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='431' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#431</div>
+<img src='bgimg/000970.jpg' loading='lazy' alt='000970.jpg'>
+<div class='info'>000970.jpg</div>
+<div class='score'>Score: -1.9884</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='432' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#432</div>
+<img src='bgimg/000092.jpg' loading='lazy' alt='000092.jpg'>
+<div class='info'>000092.jpg</div>
+<div class='score'>Score: -2.0195</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='433' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#433</div>
+<img src='bgimg/000907.jpg' loading='lazy' alt='000907.jpg'>
+<div class='info'>000907.jpg</div>
+<div class='score'>Score: -2.0240</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='434' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#434</div>
+<img src='bgimg/000692.jpg' loading='lazy' alt='000692.jpg'>
+<div class='info'>000692.jpg</div>
+<div class='score'>Score: -2.0257</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='435' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#435</div>
+<img src='bgimg/000824.jpg' loading='lazy' alt='000824.jpg'>
+<div class='info'>000824.jpg</div>
+<div class='score'>Score: -2.0506</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='436' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#436</div>
+<img src='bgimg/000709.jpg' loading='lazy' alt='000709.jpg'>
+<div class='info'>000709.jpg</div>
+<div class='score'>Score: -2.0591</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='437' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#437</div>
+<img src='bgimg/000682.jpg' loading='lazy' alt='000682.jpg'>
+<div class='info'>000682.jpg</div>
+<div class='score'>Score: -2.0915</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='438' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#438</div>
+<img src='bgimg/000755.jpg' loading='lazy' alt='000755.jpg'>
+<div class='info'>000755.jpg</div>
+<div class='score'>Score: -2.0966</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='439' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#439</div>
+<img src='bgimg/000008.jpg' loading='lazy' alt='000008.jpg'>
+<div class='info'>000008.jpg</div>
+<div class='score'>Score: -2.1092</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='440' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#440</div>
+<img src='bgimg/000514.jpg' loading='lazy' alt='000514.jpg'>
+<div class='info'>000514.jpg</div>
+<div class='score'>Score: -2.1098</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='441' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#441</div>
+<img src='bgimg/000527.jpg' loading='lazy' alt='000527.jpg'>
+<div class='info'>000527.jpg</div>
+<div class='score'>Score: -2.1374</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='442' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#442</div>
+<img src='bgimg/000047.jpg' loading='lazy' alt='000047.jpg'>
+<div class='info'>000047.jpg</div>
+<div class='score'>Score: -2.1663</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='443' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#443</div>
+<img src='bgimg/000362.jpg' loading='lazy' alt='000362.jpg'>
+<div class='info'>000362.jpg</div>
+<div class='score'>Score: -2.1844</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='444' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#444</div>
+<img src='bgimg/000131.jpg' loading='lazy' alt='000131.jpg'>
+<div class='info'>000131.jpg</div>
+<div class='score'>Score: -2.2026</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='445' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#445</div>
+<img src='bgimg/000303.jpg' loading='lazy' alt='000303.jpg'>
+<div class='info'>000303.jpg</div>
+<div class='score'>Score: -2.2307</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='446' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#446</div>
+<img src='bgimg/000556.jpg' loading='lazy' alt='000556.jpg'>
+<div class='info'>000556.jpg</div>
+<div class='score'>Score: -2.2319</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='447' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#447</div>
+<img src='bgimg/000763.jpg' loading='lazy' alt='000763.jpg'>
+<div class='info'>000763.jpg</div>
+<div class='score'>Score: -2.3789</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='448' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#448</div>
+<img src='bgimg/000232.jpg' loading='lazy' alt='000232.jpg'>
+<div class='info'>000232.jpg</div>
+<div class='score'>Score: -2.4032</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='449' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#449</div>
+<img src='bgimg/000107.jpg' loading='lazy' alt='000107.jpg'>
+<div class='info'>000107.jpg</div>
+<div class='score'>Score: -2.4972</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='450' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#450</div>
+<img src='bgimg/000691.jpg' loading='lazy' alt='000691.jpg'>
+<div class='info'>000691.jpg</div>
+<div class='score'>Score: -2.5089</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='451' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#451</div>
+<img src='bgimg/000714.jpg' loading='lazy' alt='000714.jpg'>
+<div class='info'>000714.jpg</div>
+<div class='score'>Score: -2.5387</div>
+</div>
+<div class='box' onclick='toggleCard(this)'>
+<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='452' onclick='toggleCheckbox(event, this)'></div>
+<div class='rank'>#452</div>
+<img src='bgimg/000158.jpg' loading='lazy' alt='000158.jpg'>
+<div class='info'>000158.jpg</div>
+<div class='score'>Score: -2.7432</div>
+</div>
+</div>
+</body></html>
