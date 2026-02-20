@@ -1,139 +1,125 @@
-import glob
 import os
 
-def generate_evaluation_html(txt_file, is_original=False):
-    base_name = os.path.splitext(os.path.basename(txt_file))[0]
-    # Distinguish output filenames
-    if is_original:
-        out_file = base_name.replace('ass2_rank_original', 'ass2_eval_original') + ".html"
-        title_prefix = "Original Rank"
-    else:
-        out_file = base_name.replace('ass2_rank_reranked', 'ass2_eval_reranked') + ".html"
-        title_prefix = "Re-ranked Result"
-        
-    print(f"Processing {txt_file} -> {out_file}")
-    
-    with open(txt_file, 'r') as f:
+def generate_html(rank_file, output_html, keyword):
+    with open(rank_file, 'r') as f:
         lines = f.readlines()
-        
-    # Skip header
-    if len(lines) > 0 and "score" in lines[0]:
-        lines = lines[1:]
-        
-    # Extract data
-    images = []
-    for i, line in enumerate(lines):
+    
+    # Extract ranking data
+    data = []
+    for line in lines:
         parts = line.strip().split()
         if len(parts) >= 2:
             path = parts[0]
-            # Handle potential relative paths or different separators
-            path = path.replace("\\", "/") 
-            score = parts[1]
-            images.append({
-                "rank": i + 1,
-                "path": path,
-                "score": score,
-                "name": os.path.basename(path)
-            })
+            score = float(parts[1])
+            data.append({'path': path, 'score': score})
 
-    # Generate HTML with embedded JS for counting
-    html = []
-    html.append(f"<!DOCTYPE html><html><head><meta charset='utf-8'><title>{title_prefix}</title>")
-    html.append("""
-    <style>
-        body { font-family: sans-serif; background: #f5f5f5; padding: 20px; }
-        .header { position: sticky; top: 0; background: white; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .stats { font-size: 18px; font-weight: bold; }
-        .container { display: flex; flex-wrap: wrap; margin-top: 20px; }
-        .box { width: 200px; margin: 10px; padding: 10px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: all 0.2s; border: 2px solid transparent; position: relative; cursor: pointer; }
-        .box.correct { border-color: #4CAF50; background: #E8F5E9; }
-        .box:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .rank { font-weight: bold; font-size: 14px; color: #333; margin-bottom: 5px; }
-        img { width: 100%; height: 150px; object-fit: cover; border-radius: 4px; }
-        .info { font-size: 12px; color: #666; margin-top: 5px; word-break: break-all; }
-        .score { color: #888; font-size: 11px; }
-        .check-overlay { position: absolute; top: 10px; right: 10px; background: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .checkbox { cursor: pointer; width: 16px; height: 16px; }
-    </style>
-    <script>
-        function toggleCard(element) {
-            const checkbox = element.querySelector('.checkbox');
-            checkbox.checked = !checkbox.checked;
-            updateStats();
-            updateStyle(element, checkbox.checked);
-        }
+    # Generate HTML content with JS for manual review
+    html_content = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Ranking Result: {os.path.basename(rank_file)}</title>
+        <style>
+            body {{ font-family: sans-serif; }}
+            .container {{ display: flex; flex-wrap: wrap; }}
+            .item {{ margin: 5px; border: 1px solid #ccc; padding: 5px; width: 160px; text-align: center; }}
+            img {{ max-width: 150px; max-height: 150px; cursor: pointer; }}
+            .score {{ font-size: 12px; color: #555; }}
+            .rank {{ font-weight: bold; color: #007bff; }}
+            .controls {{ position: sticky; top: 0; background: #fff; padding: 10px; border-bottom: 2px solid #000; z-index: 100; }}
+            .checked {{ background-color: #e0ffe0; border-color: #009900; }}
+            #export-area {{ margin-top: 20px; }}
+        </style>
+        <script>
+            function toggleCheck(id) {{
+                const checkbox = document.getElementById('cb-' + id);
+                checkbox.checked = !checkbox.checked;
+                updateStyle(id);
+            }}
 
-        function toggleCheckbox(event, element) {
-            event.stopPropagation();
-            const card = element.closest('.box');
-            updateStats();
-            updateStyle(card, element.checked);
-        }
+            function updateStyle(id) {{
+                const div = document.getElementById('div-' + id);
+                const checkbox = document.getElementById('cb-' + id);
+                if (checkbox.checked) {{
+                    div.classList.add('checked');
+                }} else {{
+                    div.classList.remove('checked');
+                }}
+            }}
 
-        function updateStyle(card, isChecked) {
-            if (isChecked) {
-                card.classList.add('correct');
-            } else {
-                card.classList.remove('correct');
-            }
-        }
+            function checkAll(n) {{
+                for (let i = 1; i <= n; i++) {{
+                    const checkbox = document.getElementById('cb-' + i);
+                    if (checkbox) {{
+                        checkbox.checked = true;
+                        updateStyle(i);
+                    }}
+                }}
+            }}
 
-        function updateStats() {
-            const checkboxes = document.querySelectorAll('.checkbox');
-            let count100 = 0;
-            let countTotal = 0;
-            
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    const rank = parseInt(cb.dataset.rank);
-                    if (rank <= 100) count100++;
-                    countTotal++;
-                }
-            });
-            
-            document.getElementById('stat-top100').textContent = count100;
-            document.getElementById('stat-total').textContent = countTotal;
-        }
-    </script>
-    """)
-    html.append("</head><body>")
+            function exportMistakes() {{
+                // Logic: Find unchecked items within top 100 (or specified N)
+                const N = 100;
+                let mistakes = [];
+                let mistakeHtml = "<h2>Mistakes (Unchecked Top " + N + ")</h2><p>These are the images you did NOT verify as correct.</p><div style='display:flex; flex-wrap:wrap;'>";
+                
+                for (let i = 1; i <= Math.min(N, {len(data)}); i++) {{
+                    const checkbox = document.getElementById('cb-' + i);
+                    const imgPath = document.getElementById('img-' + i).src;
+                    
+                    if (checkbox && !checkbox.checked) {{
+                        mistakes.push(imgPath);
+                        mistakeHtml += "<div style='margin:5px; border:1px solid red; padding:5px; text-align:center;'><img src='" + imgPath + "' style='max-width:100px;'><br>Rank: " + i + "</div>";
+                    }}
+                }}
+                mistakeHtml += "</div>";
+                
+                const win = window.open("", "Mistakes", "width=800,height=600");
+                win.document.write("<html><body style='font-family:sans-serif'>" + mistakeHtml + "</body></html>");
+            }}
+        </script>
+    </head>
+    <body>
+        <div class="controls">
+            <h2>{os.path.basename(rank_file)} ({keyword})</h2>
+            <button onclick="checkAll(100)">Check Top 100 (Assume Correct)</button>
+            <button onclick="exportMistakes()">Export Unchecked (Mistakes)</button>
+            <p>Usage: 1. Click "Check Top 100". 2. Manually uncheck the MISTAKES (non-target images). 3. Click "Export Unchecked".</p>
+        </div>
+        <div class="container">
+    """
     
-    html.append("<div class='header'>")
-    html.append(f"<div><h1>{title_prefix}: {base_name}</h1></div>")
-    html.append("<div class='stats'>Precision@100: <span id='stat-top100' style='color:#4CAF50'>0</span> / 100 <span style='font-size:0.8em; color:#888'>(Total Selected: <span id='stat-total'>0</span>)</span></div>")
-    html.append("</div>")
-    
-    html.append("<div class='container'>")
-    
-    for img in images:
-        html.append(f"<div class='box' onclick='toggleCard(this)'>")
-        html.append(f"<div class='check-overlay'><input type='checkbox' class='checkbox' data-rank='{img['rank']}' onclick='toggleCheckbox(event, this)'></div>")
-        html.append(f"<div class='rank'>#{img['rank']}</div>")
-        html.append(f"<img src='{img['path']}' loading='lazy' alt='{img['name']}'>")
-        html.append(f"<div class='info'>{img['name']}</div>")
-        html.append(f"<div class='score'>Score: {img['score']}</div>")
-        html.append("</div>")
-            
-    html.append("</div>")
-    html.append("</body></html>")
-    
-    with open(out_file, 'w') as f:
-        f.write("\n".join(html))
-    print(f"Generated {out_file}")
+    for i, item in enumerate(data, 1):
+        html_content += f"""
+            <div class="item" id="div-{i}">
+                <div class="rank">Rank: {i}</div>
+                <img id="img-{i}" src="{item['path']}" onclick="toggleCheck({i})">
+                <br>
+                <input type="checkbox" id="cb-{i}" onclick="updateStyle({i})"> Correct
+                <div class="score">{item['score']:.4f}</div>
+                <div class="fname">{os.path.basename(item['path'])}</div>
+            </div>
+        """
 
+    html_content += """
+        </div>
+    </body>
+    </html>
+    """
+
+    with open(output_html, 'w') as f:
+        f.write(html_content)
+    print(f"Generated {output_html}")
+    
 def main():
-    # Process Re-ranked results
-    files_result = glob.glob("ass2_rank_reranked_*.txt")
-    for f in files_result:
-        generate_evaluation_html(f, is_original=False)
-        
-    # Process Original rankings
-    files_original = glob.glob("ass2_rank_original_*.txt")
-    for f in files_original:
-        generate_evaluation_html(f, is_original=True)
-
-    if not files_result and not files_original:
-        print("No ass2_rank_*.txt files found.")
+    import glob
+    files = glob.glob("ass2_rank_*.txt")
+    
+    for f in files:
+        keyword = "apple" if "apple" in f else "kiwi"
+        out_name = f.replace("ass2_rank_", "ass2_eval_").replace(".txt", ".html")
+        print(f"Processing {f} -> {out_name}")
+        generate_html(f, out_name, keyword)
 
 if __name__ == "__main__":
     main()

@@ -1,10 +1,8 @@
 %% Web Image Re-ranking Experiment
-% Purpose: Train SVM on Top-N pseudo-positives and re-rank test images with noise injection.
-% Principles applied: SOLID (SRP), Readable Code (Low Cognitive Load).
+% Purpose: Train linear SVM on top-N positive images and background negatives, 
+%          then re-rank noisy test images.
 
 function web_image_reranking_main()
-    % main function wrapper to allow local functions
-    
     clc; clear; close all;
 
     %% 1. Configuration
@@ -12,10 +10,9 @@ function web_image_reranking_main()
     Config = struct();
     Config.Keywords      = {'apple', 'kiwi'};
     Config.Paths.Base    = 'img';
-    Config.Paths.Bg      = 'bgimg';
-    Config.Counts.Train  = [25, 50];  % Top-N parameters
+    Config.Paths.Bg      = 'bgimg';   % Background images in current directory
+    Config.Counts.Train  = [25, 50];  % Top-N parameters for positive samples
     Config.Counts.BgTrain= 500;       % Negatives for Training
-    Config.Counts.BgTest = 200;       % Negatives for Testing (Noise)
 
     % Validate Dependencies
     if isempty(which('resnet50')) && isempty(which('alexnet'))
@@ -31,53 +28,45 @@ function web_image_reranking_main()
         targetKeyword = Config.Keywords{k};
         print_section_header(sprintf('Processing Keyword: %s', targetKeyword));
 
-        % 3.1 Prepare Background Data (Noise)
-        % Using specific splitting logic to avoid data leakage
-        [bgTrainFiles, bgTestFiles] = prepare_background_data(Config);
+        % 3.1 Prepare Datasets
+        bgTrainFiles = prepare_background_data(Config);
+        [allTrainCandidates, testFiles] = discover_target_images(Config, targetKeyword);
         
-        % 3.2 Target Image Discovery
-        % Abstraction: We don't care here if it's single or split folders
-        [allTrainCandidates, allTestCandidates] = discover_target_images(Config, targetKeyword);
-        
-        if isempty(allTrainCandidates)
-            warning('No images found for %s. Skipping.', targetKeyword);
+        if isempty(allTrainCandidates) || isempty(testFiles)
+            warning('Images not found for %s. Skipping.', targetKeyword);
             continue;
         end
 
-        % 3.3 Iterate through different Top-N definitions
+        % 3.2 Iterate through different Top-N definitions
         for nIdx = 1:length(Config.Counts.Train)
             numPosTrain = Config.Counts.Train(nIdx);
             
-            % --- Core Logic: Train/Test Split ---
-            [posTrainFiles, testFiles] = create_experiment_sets(...
-                allTrainCandidates, allTestCandidates, bgTestFiles, numPosTrain);
+            % Select top N images from Bing data (Train)
+            posTrainFiles = select_top_n(allTrainCandidates, numPosTrain);
             
             fprintf('  > Experiment Top-%d: Train[%d Pos, %d Neg] | Test[%d Total]\n', ...
                 numPosTrain, length(posTrainFiles), length(bgTrainFiles), length(testFiles));
 
-            % --- Feature Extraction ---
-            % Extract features for all sets
+            % 3.3 Feature Extraction
             trainPosFeat = extract_features(posTrainFiles, deepNet, featureLayer, inputSize);
             trainNegFeat = extract_features(bgTrainFiles, deepNet, featureLayer, inputSize);
             testFeat     = extract_features(testFiles, deepNet, featureLayer, inputSize);
 
             if isempty(trainPosFeat) || isempty(trainNegFeat)
-                warning('Feature extraction failed (empty set). Skipping Top-%d.', numPosTrain);
+                warning('Feature extraction failed. Skipping Top-%d.', numPosTrain);
                 continue;
             end
 
-            % --- SVM Training ---
+            % 3.4 SVM Training
             svmModel = train_svm_ranker(trainPosFeat, trainNegFeat);
 
-            % --- Prediction & Ranking ---
+            % 3.5 Prediction & Ranking on Flickr data (Test)
             [~, scores] = predict(svmModel, testFeat);
-            posScores   = scores(:, 2); % Probability of class "1" (Target)
+            posScores   = scores(:, 2); % Probability of target class
 
-            % --- Save Results ---
-            % 1. Original Order (Unsorted)
+            % 3.6 Save Results
             save_ranking_results(testFiles, posScores, targetKeyword, numPosTrain, 'original', Config);
             
-            % 2. Re-ranked Order (Sorted)
             [sortedScores, sortIdx] = sort(posScores, 'descend');
             sortedFiles = testFiles(sortIdx);
             save_ranking_results(sortedFiles, sortedScores, targetKeyword, numPosTrain, 'reranked', Config);
@@ -101,82 +90,35 @@ function [net, layer, sizeInfo] = load_pretrained_model()
     sizeInfo = net.Layers(1).InputSize;
 end
 
-function [bgTrain, bgTest] = prepare_background_data(Config)
-    % Handles loading and splitting of background images safely
+function bgTrain = prepare_background_data(Config)
+    % Extracts a fixed number of random background images for negative samples.
     imdsBg = imageDatastore(Config.Paths.Bg);
-    allBgFiles = imdsBg.Files(randperm(length(imdsBg.Files))); % Shuffle
+    shuffledFiles = imdsBg.Files(randperm(length(imdsBg.Files))); 
     
-    nTotal = length(allBgFiles);
-    nTrain = min(Config.Counts.BgTrain, floor(nTotal * 0.7));
-    nTest  = min(Config.Counts.BgTest, nTotal - nTrain);
-    
-    bgTrain = allBgFiles(1:nTrain);
-    bgTest  = allBgFiles(nTrain+1 : nTrain+nTest);
+    nTrain = min(Config.Counts.BgTrain, length(shuffledFiles));
+    bgTrain = shuffledFiles(1:nTrain);
 end
 
-function [trainCandidates, testCandidates] = discover_target_images(Config, keyword)
-    % Abstracts the file system structure (Split folders vs Single folder)
+function [trainFiles, testFiles] = discover_target_images(Config, keyword)
+    % Loads files directly from explicit _train and _test directories
     trainDir = fullfile(Config.Paths.Base, [keyword '_train']);
     testDir  = fullfile(Config.Paths.Base, [keyword '_test']);
     
-    hasSeparateFolders = exist(trainDir, 'dir') && exist(testDir, 'dir');
-    
-    if hasSeparateFolders
+    if exist(trainDir, 'dir') && exist(testDir, 'dir')
         imdsTrain = imageDatastore(trainDir);
         imdsTest  = imageDatastore(testDir);
-        trainCandidates = sort(imdsTrain.Files);
-        testCandidates  = sort(imdsTest.Files);
+        trainFiles = sort(imdsTrain.Files);
+        testFiles  = sort(imdsTest.Files);
     else
-        % Fallback: Single folder strategy
-        targetDir = fullfile(Config.Paths.Base, keyword);
-        if ~exist(targetDir, 'dir')
-            trainCandidates = {};
-            testCandidates = {};
-            return;
-        end
-        imdsFull = imageDatastore(targetDir);
-        trainCandidates = sort(imdsFull.Files); % Use all as candidates
-        testCandidates  = {}; % Will be handled by splitter
+        trainFiles = {};
+        testFiles = {};
     end
 end
 
-function [posTrain, finalTest] = create_experiment_sets(allTrain, allTest, bgTest, numTrain)
-    % Logic to define exactly what goes into Training vs Testing
-    % Why: To ensure Top-N selection is consistent regardless of folder structure.
-    
-    % 1. Select Training Positives (Top-N)
-    if length(allTrain) <= numTrain
-        % Fallback if requested N is larger than available images
-        splitIdx = floor(length(allTrain) / 2);
-        if isempty(allTest) 
-             % Single folder case: Split available into 50/50
-             posTrain = allTrain(1:splitIdx);
-             remainingForTest = allTrain(splitIdx+1:end);
-        else
-             % Separate folder case: Use all training
-             posTrain = allTrain;
-             remainingForTest = {};
-        end
-    else
-        % Standard Top-N case
-        posTrain = allTrain(1:numTrain);
-        if isempty(allTest)
-            % Single folder: The rest become test candidates
-            remainingForTest = allTrain(numTrain+1:end);
-        else
-            % Separate folder: Unused training images are ignored (standard protocol)
-            remainingForTest = {};
-        end
-    end
-    
-    % 2. Construct Final Test Set (Positives + Noise)
-    if isempty(allTest)
-        posTest = remainingForTest;
-    else
-        posTest = allTest;
-    end
-    
-    finalTest = [posTest; bgTest];
+function topNFiles = select_top_n(allFiles, n)
+    % Safely slice the top N files without exceeding array bounds
+    actualN = min(n, length(allFiles));
+    topNFiles = allFiles(1:actualN);
 end
 
 function svmModel = train_svm_ranker(posFeats, negFeats)
@@ -190,13 +132,12 @@ function svmModel = train_svm_ranker(posFeats, negFeats)
 end
 
 function features = extract_features(fileList, net, layer, inputSize)
-    % Wrapper for feature extraction with safe image reading
     if isempty(fileList)
         features = [];
         return;
     end
     
-    % Create a temporary datastore with a custom read function
+    % Create a temporary datastore with a custom read function for robustness
     imds = imageDatastore(fileList);
     imds.ReadFcn = @(f) read_safe_image(f, inputSize);
     
@@ -204,14 +145,12 @@ function features = extract_features(fileList, net, layer, inputSize)
 end
 
 function save_ranking_results(fileList, scores, keyword, numTrain, typeSuffix, Config)
-    % Formats and writes the output file
     fileName = sprintf('ass2_rank_%s_%s_top%d.txt', typeSuffix, keyword, numTrain);
     fid = fopen(fileName, 'w');
     
     for i = 1:length(fileList)
-        % Create clean relative path for readability in output file
-        relPath = get_relative_path(fileList{i}, Config, keyword);
-        fprintf(fid, '%s %.4f\n', relPath, scores(i));
+        relPath = extract_relative_path(fileList{i}, Config.Paths.Base);
+        fprintf(fid, '%s %f\n', relPath, scores(i));
     end
     
     fclose(fid);
@@ -222,33 +161,29 @@ end
 %% Low-Level Helper Functions (Infrastructure)
 %% ========================================================================
 
-function relPath = get_relative_path(absPath, Config, keyword)
-    % Determines how to display the file path based on its origin
-    [~, fname, ext] = fileparts(absPath);
-    
-    if contains(absPath, Config.Paths.Bg)
-        relPath = fullfile(Config.Paths.Bg, [fname ext]);
-    elseif contains(absPath, [keyword '_test'])
-        relPath = fullfile([keyword '_test'], [fname ext]);
-    elseif contains(absPath, [keyword '_train'])
-        relPath = fullfile([keyword '_train'], [fname ext]);
+function relPath = extract_relative_path(absPath, baseFolder)
+    % Formats path for clean text output (e.g., 'img/apple_test/000001.jpg')
+    idx = strfind(absPath, [filesep baseFolder filesep]);
+    if ~isempty(idx)
+        relPath = absPath(idx(end)+1:end); 
     else
-        relPath = fullfile(Config.Paths.Base, keyword, [fname ext]);
+        % Fallback for bgimg folder
+        [parentDir, fname, ext] = fileparts(absPath);
+        [~, parentName] = fileparts(parentDir);
+        relPath = fullfile(parentName, [fname ext]);
     end
+    % Ensure consistent forward slashes in text output
+    relPath = strrep(relPath, '\', '/');
 end
 
 function I_out = read_safe_image(filename, targetSize)
     % Robust image reader: Handles corruption, Grayscale->RGB, and Resizing
     try
         I = imread(filename);
-        
-        % Force 3 channels (RGB)
         if size(I, 3) == 1
             I = cat(3, I, I, I);
         end
-        
         I_out = imresize(I, targetSize(1:2));
-        
     catch
         [~, name, ext] = fileparts(filename);
         warning('Corrupt image skipped: %s%s', name, ext);

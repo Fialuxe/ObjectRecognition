@@ -1,0 +1,10 @@
+File                                               | AP       | Rel. Count
+---------------------------------------------------------------------------
+ass2_rank_original_apple_top25.txt                 | 1.0000   | 175
+ass2_rank_original_apple_top50.txt                 | 1.0000   | 150
+ass2_rank_original_kiwi_top25.txt                  | 1.0000   | 175
+ass2_rank_original_kiwi_top50.txt                  | 1.0000   | 150
+ass2_rank_reranked_apple_top25.txt                 | 0.9346   | 175
+ass2_rank_reranked_apple_top50.txt                 | 0.9134   | 150
+ass2_rank_reranked_kiwi_top25.txt                  | 0.9604   | 175
+ass2_rank_reranked_kiwi_top50.txt                  | 0.9621   | 150

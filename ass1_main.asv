@@ -1,0 +1,299 @@
+%% Assignment 1: 2-Class Classification
+% Refactored for readability, strict SRP, and removed compile errors.
+
+function image_classification_pipeline()
+    clc; clear; close all;
+
+    %% 1. Configuration
+    Config = struct();
+    Config.BaseDir = 'img';
+    Config.ClassPairs = {
+        {'chihuahua', 'muffin'}, ... % Hard Pair 1
+        {'poodle', 'fried_chicken'}, ... % Hard Pair 2
+        {'bus', 'truck'}             ... % Easy Pair
+    };
+
+    %% 2. Deep Learning Network Initialization
+    [deepNet, featureLayer] = initialize_deep_network();
+
+    %% 3. Main Experiment Loop
+    for pairIdx = 1:length(Config.ClassPairs)
+        class1 = Config.ClassPairs{pairIdx}{1};
+        class2 = Config.ClassPairs{pairIdx}{2};
+        
+        print_section_header(sprintf('Starting Experiment: %s vs %s', class1, class2));
+
+        % --- Data Loading & Balancing ---
+        [balancedImageStore, minCount] = load_and_balance_data(Config.BaseDir, class1, class2);
+        if isempty(balancedImageStore)
+            continue;
+        end
+        fprintf('Using %d images per class (Total: %d)\n', minCount, minCount * 2);
+
+        % --- Setup Cross Validation ---
+        cvPartition = cvpartition(balancedImageStore.Labels, 'KFold', 5);
+
+        % --- Method 1: Color Histogram + KNN ---
+        fprintf('\n--- Method 1: Color Histogram + KNN ---\n');
+        evaluate_color_histogram(balancedImageStore, cvPartition);
+
+        % --- Method 2: BoF + Nonlinear SVM ---
+        fprintf('\n--- Method 2: Bag of Features (Dense) + Nonlinear SVM ---\n');
+        evaluate_bag_of_features(balancedImageStore, cvPartition);
+
+        % --- Method 3 & 4: DCNN Features ---
+        % Extract deep features once to save computation time
+        fprintf('\n--- Extracting DCNN Features ---\n');
+        dcnnFeatures = extract_dcnn_features(balancedImageStore, deepNet, featureLayer);
+
+        fprintf('\n--- Method 3: DCNN + Linear SVM ---\n');
+        evaluate_dcnn_model(balancedImageStore, cvPartition, dcnnFeatures, 'linear', 'Method3_DCNN_Linear');
+
+        fprintf('\n--- Method 4: DCNN + Non-linear SVM (RBF) ---\n');
+        evaluate_dcnn_model(balancedImageStore, cvPartition, dcnnFeatures, 'rbf', 'Method4_DCNN_RBF');
+    end
+end
+
+%% ========================================================================
+%% Domain Logic Functions (Evaluators)
+%% ========================================================================
+
+function evaluate_color_histogram(imageStore, cvPartition)
+    % Extract features
+    imageStore.ReadFcn = @read_hsv_histogram;
+    features = cell2mat(imageStore.readall());
+    imageStore.ReadFcn = @read_safe_image; % Reset to default image reader for later
+
+    % Define KNN Trainer
+    trainPredictFn = @(XTrain, YTrain, XTest) predict(fitcknn(XTrain, YTrain, 'NumNeighbors', 1), XTest);
+
+    % Execute CV
+    [meanAccuracy, lastYTest, lastYPred, lastTestIdx] = execute_cross_validation(features, imageStore.Labels, cvPartition, trainPredictFn);
+    
+    fprintf('Accuracy: %.2f%%\n', meanAccuracy * 100);
+    visualize_mistakes(imageStore, lastYTest, lastYPred, lastTestIdx, 'Method1_ColorKNN');
+end
+
+function evaluate_bag_of_features(imageStore, cvPartition)
+    imageStore.ReadFcn = @read_safe_image;
+    
+    fprintf('Creating Bag of Features...\n');
+    bag = bagOfFeatures(imageStore, 'CustomExtractor', @extract_dense_surf, ...
+                        'VocabularySize', 1000, 'StrongestFeatures', 1.0);
+    
+    fprintf('Encoding images...\n');
+    features = encode(bag, imageStore);
+
+    % Define SVM Trainer
+    svmTemplate = templateSVM('KernelFunction', 'rbf', 'KernelScale', 'auto');
+    trainPredictFn = @(XTrain, YTrain, XTest) predict(fitcecoc(XTrain, YTrain, 'Learners', svmTemplate), XTest);
+
+    % Execute CV
+    [meanAccuracy, lastYTest, lastYPred, lastTestIdx] = execute_cross_validation(features, imageStore.Labels, cvPartition, trainPredictFn);
+    
+    fprintf('Accuracy: %.2f%%\n', meanAccuracy * 100);
+    visualize_mistakes(imageStore, lastYTest, lastYPred, lastTestIdx, 'Method2_BoF');
+end
+
+function evaluate_dcnn_model(imageStore, cvPartition, features, kernelType, methodTag)
+    % Define SVM Trainer based on kernel choice
+    if strcmp(kernelType, 'linear')
+        svmTemplate = templateSVM('KernelFunction', 'linear', 'Solver', 'ISDA');
+    else
+        svmTemplate = templateSVM('KernelFunction', 'rbf', 'KernelScale', 'auto');
+    end
+    
+    trainPredictFn = @(XTrain, YTrain, XTest) predict(fitcecoc(XTrain, YTrain, 'Learners', svmTemplate), XTest);
+
+    % Execute CV
+    [meanAccuracy, lastYTest, lastYPred, lastTestIdx] = execute_cross_validation(features, imageStore.Labels, cvPartition, trainPredictFn);
+    
+    fprintf('Accuracy: %.2f%%\n', meanAccuracy * 100);
+    visualize_mistakes(imageStore, lastYTest, lastYPred, lastTestIdx, methodTag);
+end
+
+function [meanAccuracy, lastYTest, lastYPred, lastTestIdx] = execute_cross_validation(features, labels, cvPartition, trainPredictFn)
+    % Abstracts the repetitive K-Fold loop mechanism
+    accuracies = zeros(cvPartition.NumTestSets, 1);
+    
+    for fold = 1:cvPartition.NumTestSets
+        trainIdx = cvPartition.training(fold);
+        testIdx = cvPartition.test(fold);
+        
+        XTrain = features(trainIdx, :);
+        YTrain = labels(trainIdx);
+        XTest = features(testIdx, :);
+        YTest = labels(testIdx);
+        
+        % Utilize the injected function handle for training and prediction
+        YPred = trainPredictFn(XTrain, YTrain, XTest);
+        accuracies(fold) = sum(YPred == YTest) / length(YTest);
+        
+        % Cache last fold results for visualization
+        if fold == cvPartition.NumTestSets
+            lastYTest = YTest;
+            lastYPred = YPred;
+            lastTestIdx = testIdx;
+        end
+    end
+    meanAccuracy = mean(accuracies);
+end
+
+%% ========================================================================
+%% Feature Extraction & Image Processing Sub-routines
+%% ========================================================================
+
+function [balancedStore, minCount] = load_and_balance_data(baseDir, class1, class2)
+    dir1 = fullfile(baseDir, class1);
+    dir2 = fullfile(baseDir, class2);
+    
+    if ~exist(dir1, 'dir') || ~exist(dir2, 'dir')
+        warning('Directories for %s vs %s not found. Skipping.', class1, class2);
+        balancedStore = []; minCount = 0;
+        return;
+    end
+    
+    imds1 = imageDatastore(dir1, 'IncludeSubfolders', true, 'LabelSource', 'foldernames');
+    imds2 = imageDatastore(dir2, 'IncludeSubfolders', true, 'LabelSource', 'foldernames');
+    
+    minCount = min(length(imds1.Files), length(imds2.Files));
+    if minCount < 50
+        warning('Low image count (%d). Results may be statistically unstable.', minCount);
+    end
+    
+    subStore1 = splitEachLabel(imds1, minCount, 'randomized');
+    subStore2 = splitEachLabel(imds2, minCount, 'randomized');
+    
+    balancedStore = imageDatastore(cat(1, subStore1.Files, subStore2.Files), ...
+        'Labels', cat(1, subStore1.Labels, subStore2.Labels));
+end
+
+function [net, layer] = initialize_deep_network()
+    if ~isempty(which('resnet50'))
+        net = resnet50();
+        layer = 'avg_pool';
+        fprintf('Network: ResNet50\n');
+    elseif ~isempty(which('alexnet'))
+        net = alexnet();
+        layer = 'fc7';
+        fprintf('Network: AlexNet\n');
+    else
+        error('Deep Learning Toolbox model not found. Install ResNet50 or AlexNet.');
+    end
+end
+
+function features = extract_dcnn_features(imageStore, net, layer)
+    inputSize = net.Layers(1).InputSize;
+    imageStore.ReadFcn = @(f) read_resized_image(f, inputSize);
+    features = activations(net, imageStore, layer, 'OutputAs', 'rows');
+end
+
+function [features, metrics] = extract_dense_surf(I)
+    % Custom extractor integrating the requested random point generation
+    % Defaults for fallback
+    features = zeros(1, 64, 'single');
+    metrics = 0;
+    
+    try
+        I = ensure_rgb(I);
+        grayImage = rgb2gray(I);
+        
+        points = generate_random_surf_points(grayImage, 1000);
+        [extFeatures, validPoints] = extractFeatures(grayImage, points);
+        
+        % Guard against empty features to prevent bagOfFeatures validation crash
+        if isempty(extFeatures)
+            return;
+        end
+        
+        features = extFeatures;
+        if isprop(validPoints, 'Metric')
+            metrics = validPoints.Metric;
+        else
+            metrics = ones(size(features, 1), 1, 'single');
+        end
+    catch
+        % Quietly return fallback zeroes if image is totally corrupt
+    end
+end
+
+function surfPts = generate_random_surf_points(I, numPoints)
+    % Preallocate arrays instead of dynamically growing objects in a loop
+    [sy, sx] = size(I);
+    imageSize = [sx, sy];
+    
+    locations = zeros(numPoints, 2);
+    scales = zeros(numPoints, 1);
+    
+    for i = 1:numPoints
+        scale = 0;
+        while scale < 1.6
+            scale = randn() * 3 + 3;
+        end
+        
+        % Calculate random coordinate ensuring it stays within image boundaries considering scale
+        pt = ceil((imageSize - ceil(scale) * 2) .* rand(1, 2) + ceil(scale));
+        
+        locations(i, :) = pt;
+        scales(i) = scale;
+    end
+    
+    surfPts = SURFPoints(locations, 'Scale', scales);
+end
+
+function histVec = read_hsv_histogram(filename)
+    try
+        I = ensure_rgb(imread(filename));
+        hsv = rgb2hsv(I);
+        
+        % Quantize H(16), S(4), V(4) bins
+        H = floor(hsv(:, :, 1) * 3.99);
+        S = floor(hsv(:, :, 2) * 3.99);
+        V = floor(hsv(:, :, 3) * 3.99);
+        
+        idx = H * 16 + S * 4 + V;
+        histVec = histcounts(idx, 0:64, 'Normalization', 'pdf');
+    catch
+        [~, name, ext] = fileparts(filename);
+        warning('Corrupt image (Color Hist): %s%s', name, ext);
+        histVec = zeros(1, 64);
+    end
+end
+
+%% ========================================================================
+%% Utility / Helper Functions
+%% ========================================================================
+
+
+
+function I_out = read_resized_image(filename, inputSize)
+    try
+        I = ensure_rgb(imread(filename));
+        I_out = imresize(I, inputSize(1:2));
+    catch
+        [~, name, ext] = fileparts(filename);
+        warning('Corrupt image (DCNN reader): %s%s', name, ext);
+        I_out = zeros([inputSize(1:2), 3], 'uint8');
+    end
+end
+
+function I_out = read_safe_image(filename)
+    try
+        I_out = ensure_rgb(imread(filename));
+    catch
+        warning('Skipping corrupt image: %s', filename);
+        I_out = zeros(300, 300, 3, 'uint8');
+    end
+end
+
+function I_out = ensure_rgb(I)
+    if size(I, 3) == 1
+        I_out = cat(3, I, I, I);
+    else
+        I_out = I;
+    end
+end
+
+function print_section_header(titleText)
+    fprintf('\n%s\n%s\n%s\n', repmat('=', 1, 40), titleText, repmat('=', 1, 40));
+end

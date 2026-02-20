@@ -244,6 +244,23 @@ ass2_eval_reranked_apple_top50.html -> apple product: 96% (need to determine the
 ass2_eval_reranked_kiwi_top25.html -> kiwi fruit: 100%, kiwi animal: 0%
 ass2_eval_reranked_kiwi_top50.html -> kiwi fruit: 100%, kiwi animal: 0%
 
-7. analyze
+7. calc AP with ass2_calc_ap.py and got result
+File                                               | AP       | Rel. Count
+---------------------------------------------------------------------------
+ass2_rank_original_apple_top25.txt                 | 1.0000   | 175
+ass2_rank_original_apple_top50.txt                 | 1.0000   | 150
+ass2_rank_original_kiwi_top25.txt                  | 1.0000   | 175
+ass2_rank_original_kiwi_top50.txt                  | 1.0000   | 150
+ass2_rank_reranked_apple_top25.txt                 | 0.9346   | 175
+ass2_rank_reranked_apple_top50.txt                 | 0.9134   | 150
+ass2_rank_reranked_kiwi_top25.txt                  | 0.9604   | 175
+ass2_rank_reranked_kiwi_top50.txt                  | 0.9621   | 150
+
+8. analyze
 
 maybe all apple product is too broad? I think to focus on only logos are better for the valid comparison.
+also, I need to analyze these result whole throughly.
+
+9. By the way, what is the assignment?
+
+

@@ -1,0 +1,355 @@
+\documentclass[11pt]{ltjsarticle}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{multicol}
+\usepackage{here}
+
+% !TEX program = lualatex
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1\baselineskip}
+
+\begin{document}
+%Add Title and Name here
+\date{\today}
+\begin{center}
+  \vspace*{\fill}
+  {\LARGE \bfseries Fried Chicken Sometimes Misclassified as Poodle: \\物体認識論最終レポート\par}
+  \vspace{2em}
+  {\large メディア情報学プログラム 2313196\par}
+  {\large 増田拓真\par}
+  \vspace{2em}
+  {\large \today\par}
+  \vspace*{\fill}
+\end{center}
+\thispagestyle{empty}
+\clearpage
+\tableofcontents
+\section{課題内容の説明}
+本課題では、Webから収集した実環境画像データセットを用いた物体分類および検索リランキングのシステム構築を行う。
+具体的には、以下の2点について検証する。
+
+\subsection{課題の目的}
+本実験は、Webから収集したノイズを含む画像データセットに対して画像認識技術を適用し、物体認識システムの性能評価およびWeb画像検索結果の精度改善（リランキング）手法を検証することを目的とする。
+
+具体的には、以下の課題に取り組む。
+
+\begin{enumerate} 
+  \item \textbf{2クラス物体分類実験}: Webから収集した2種類の物体画像に対し、古典的な特徴抽出手法（カラーヒストグラム、Bag of Features）および深層学習に基づく特徴抽出手法（DCNN）を用いた分類器を構築する。これらを5-fold Cross Validationにより評価し、各手法の識別能力および特徴表現の違いを比較検証する。
+
+  \item \textbf{Web画像検索リランキング実験}: テキストベースのWeb画像検索エンジン・APIの出力には、キーワードに関連しないノイズ画像が含まれることが多い。そこで、検索結果の上位（Top-N）画像を「擬似的な正解データ」として学習に用いることで、人手によるアノテーションなしに分類器（SVM）を構築する。この分類器を用いて検索結果全体を再評価（リランキング）し、視覚的特徴に基づく並べ替えによって検索精度（Average Precision）を向上させることができるかを検証する。 
+\end{enumerate}
+
+本実験を通じ、以下の点に着目して、実環境における画像認識システムの特性を明らかにする。
+\begin{enumerate}
+  \item \textbf{特徴表現の有効性}: 背景の複雑さや被写体のばらつきに対し、深層学習（DCNN）特徴量が従来手法（カラーヒストグラム、BoF）と比較して、どの程度機能し、実用的な認識精度を達成できるか。
+  \item \textbf{不完全データ学習の可能性と限界}: Web検索結果のような「ノイズを含む教師データ」を用いた場合でも、Top-Nを正例とする戦略がリランキングに有効である一方で、学習データ（初期検索精度）の質に強く依存する点（Garbage In, Garbage Out）や、視覚的類似性と意味的類似性の乖離が誤認識を引き起こすメカニズム。
+\end{enumerate}
+
+\section{設計方針}
+実験およびデータ収集はMATLABおよびPythonを併用して実施した。
+
+\subsection{データの収集と前処理}
+収集ツールとしてPythonのicrawlerライブラリ、および講義資料で指定されたインターフェースを用い、Bing ImagesおよびFlickrから画像をダウンロードした。
+
+前処理として以下のスクリプトを作成し、データセットの品質を確保した。
+\begin{itemize}
+  \item ファイルサイズが5KB未満のサムネイルや破損画像を削除。
+  \item グレースケール画像は削除せず、RGB形式（3チャンネル）に変換して保存。
+  \item 拡張子と実際のファイルフォーマットが一致しない不正ファイルを削除。
+\end{itemize}
+
+\subsection{データセット構成}
+データ収集の結果、課題1用として以下の3組のデータセットを用意した。各クラス約200枚を使用し、データ数に偏りがある場合はランダムに削減して均衡化を図った（例: Chihuahua/Muffinは各194枚）。
+\begin{itemize}
+  \item Chihuahua (194枚) / Muffin (194枚)
+  \item Poodle (196枚) / Fried Chicken (196枚)
+  \item Bus (200枚) / Truck (200枚)
+\end{itemize}
+
+課題2用として、学習用データと評価用データとして、それぞれ独立した画像セットを用意し、完全に分離された環境で実験を行った。
+\begin{enumerate} 
+  \item \textbf{学習データセット (Training Set)}: 
+  \begin{itemize} 
+    \item \textbf{ソース}: Bing Images から収集した画像群（\verb|apple_train|, \verb|kiwi_train|）。 
+    \item \textbf{構成}: 検索順位上位の画像（001--200）と、意図的に混入させたノイズ画像（201--300）を含む。 
+    \item \textbf{正例 (Top-$N$)}: このセットの検索上位 $N$ 枚（$N=25, 50$）のみを学習に使用した。 
+    \item \textbf{負例}: 背景画像データセット (\verb|bgimg|) からランダムに選択した500枚。 
+  \end{itemize}
+  \item \textbf{評価データセット (Test Set)}: 
+  \begin{itemize} 
+    \item \textbf{ソース}: Flickr から収集した、学習データとは全く異なる新規画像セット（\verb|apple_test|, \verb|kiwi_test|）。 
+    \item \textbf{正解画像}: このセットに含まれる全画像を「正解（Positive）」と定義した。 
+    \item \textbf{背景ノイズ}: 背景画像データセット (\verb|bgimg|) から、学習用とは重複しないように選択した200枚を「不正解（Negative）」として混合し、ランキング対象とした。 
+  \end{itemize} 
+\end{enumerate}
+
+その後、目視確認により、明らかに無関係な画像や不適切な画像を手動で削除した。
+
+\subsection{分類手法の選定}
+\subsubsection{課題1}
+以下の4手法を実装し、性能比較を行った。
+\begin{itemize}
+  \item \textbf{Color Histogram + KNN}: 色彩情報（HSVヒストグラム）のみを用いたベースライン手法。
+  \item \textbf{BoF + Non-linear SVM}: 局所特徴量 (SURF) をDense Samplingし、Bag of Features表現を用いた手法。Codebookサイズは1000とした。
+  \item \textbf{DCNN (ResNet50) + Linear SVM}: 事前学習済みResNet50の特徴を用いた転移学習（線形SVM）。
+  \item \textbf{DCNN (ResNet50) + Non-linear SVM (RBF)}: DCNN特徴量をRBFカーネルSVMで分類する手法。
+\end{itemize}
+
+\subsubsection{実験2における正解定義}
+Web検索結果の一般的な傾向に基づき、各キーワードに対して以下の基準で正解・不正解を定義した。
+\begin{itemize}
+  \item \textbf{Apple}:
+  \begin{itemize}
+    \item 正解: スマートフォン (iPhone)、Apple Watch、Apple社ロゴ
+    \item 不正解: 果物のリンゴ、Windows PC
+  \end{itemize}
+  \item \textbf{Kiwi}:
+  \begin{itemize}
+    \item 正解: 果物のキウイフルーツ（断面含む）
+    \item 不正解: 鳥のキーウィ、その他ノイズ
+  \end{itemize}
+\end{itemize}
+
+\section{プログラムの説明}
+作成した主なプログラムの構成は以下の通りである。
+
+\begin{itemize}
+  \item \verb|ass_preparation0_download_data.py|: 画像収集・クリーニング用スクリプト。
+  \item \verb|ass1_main.m|: 課題1用。特徴抽出から5-fold CVによる評価、結果の可視化を一括して行う。
+  \item \verb|createRandomPoints.m|: BoF用のDense Sampling（Random Samplingによる近似）を行う関数。
+  \item \verb|ass2_main.m|: 課題2用。Top-N学習、リランキングスコア算出、ランキングリスト作成を行う。
+  \item \verb|ass2_generate_html.py|: リランキング結果を確認するためのHTML生成スクリプト。
+  \item \verb|ass2_calc_ap.py|: ファイル名に基づきAverage Precision (AP) を自動算出するスクリプト。
+\end{itemize}
+
+\subsection{パラメータ詳細設定}
+\begin{itemize}
+  \item \textbf{Cross-validation}: 5-fold (\verb|cvpartition|, 'KFold', 5)。分割はランダム（シード非固定）。
+  \item \textbf{BoF}:
+    \begin{itemize}
+      \item Sampling: 1画像あたり1000点 (Random SamplingによるDense近似)
+      \item Codebook Size: 1000
+      \item SVM: Non-linear (RBF Kernel)
+    \end{itemize}
+  \item \textbf{DCNN}:
+    \begin{itemize}
+      \item Model: ResNet50 (ImageNet Pre-trained)
+      \item Layer: \verb|avg_pool| (2048次元)
+      \item Feature Normalization: なし（生の出力値を使用）
+    \end{itemize}
+\end{itemize}
+
+\section{実験結果}
+
+\subsection{課題1: 2クラス分類精度}
+\begin{table}[H]
+  \centering
+  \caption{各データセットにおける分類精度の比較}
+  \begin{tabular}{lcccc}
+    \hline
+    実験タスク & Method 1 & Method 2 & Method 3 & Method 4 \\
+    (データセット) & (Color+KNN) & (BoF+NL-SVM) & (DCNN+L-SVM) & (DCNN+NL-SVM) \\
+    \hline
+    チワワマフィン     & 82.72\% & 81.68\% & 100.00\% & 100.00\% \\
+    プードル揚鶏 & 91.06\% & 83.16\% & 100.00\% & 100.00\% \\
+    バストラック & 67.75\% & 69.50\% & 96.75\%  & 97.75\% \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{誤分類例（課題1）}
+以下の図は，課題1で用いた4手法（Color Histogram + KNN，BoF + Non-linear SVM，DCNN (ResNet50) + Linear SVM，DCNN (ResNet50) + Non-linear SVM (RBF)）に対応する誤分類例である。\par
+DCNNの2手法はデータセットによっては誤分類が出ない場合があるため，図は誤分類が出力された条件の例を掲載する。
+\paragraph{Color Histogram + KNN}
+\begin{figure}[H]
+  \centering
+  \label{fig:knn1}
+  \includegraphics[width=0.48\linewidth]{img/ass1_Mistakes_Method1_ColorKNN_20260219_180202.png}\hfill
+  \includegraphics[width=0.48\linewidth]{img/ass1_Mistakes_Method1_ColorKNN_20261019_180259.png}
+  \caption{Color Histogram + KNN の誤分類例}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \label{fig:knn2}
+  \includegraphics[width=0.60\linewidth]{img/ass1_Mistakes_Method1_ColorKNN_20261919_180211.png}
+  \caption{Color Histogram + KNN の誤分類例}
+\end{figure}
+
+\paragraph{Method1: カラーヒストグラム + K-NN による分類結果と分析}
+
+\paragraph{1. 分類結果（事実）}
+Webから収集した画像に対し、カラーヒストグラムと最近傍分類（K-NN）を用いた2クラス分類を適用した結果、各クラスにおいて以下のような特徴を持つ画像群の混在（誤検出）が確認された。
+
+\paragraph{チワワ vs マフィン}
+\begin{itemize}
+  \item 内訳: チワワ8枚、マフィン3枚
+  \item 被写体の色・形状: 薄茶、濃茶、黒、白を基調とする犬（単体・複数）と、きつね色や焦げ茶色の丸みを帯びたドーム型マフィン（単体・複数）。
+  \item 背景環境: 茶色いフローリング、白い布や壁、緑の草むら、金属製の網など。
+\end{itemize}
+
+\paragraph{プードル vs 唐揚げ}
+\begin{itemize}
+  \item 内訳: トイプードル4枚、唐揚げ1枚
+  \item 被写体の色・形状: アプリコット、ブラウン、黒の細かい巻き毛で覆われた犬と、きつね色で表面の凹凸が激しい不規則な塊状の唐揚げ。
+  \item 背景環境: 木目の床、緑の芝生、鮮やかな水色のベンチ、黒い網と白いクッキングシートなど。
+\end{itemize}
+
+\paragraph{バス vs トラック}
+\begin{itemize}
+  \item 内訳: バス17枚、トラック16枚
+  \item 被写体の色・種類: 黄色のスクールバスや青・赤・白の路線バス、および白・黄・青・オリーブグリーンなどの多様なトラック（ピックアップ、大型トレーラー、軍用など）。バスの車内画像や線画イラスト、複数台のトラックが並ぶカタログ画像も含まれる。
+  \item 背景環境: アスファルトの道路、青空、街の風景、白背景など。
+\end{itemize}
+\paragraph{BoF + Non-linear SVM}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.48\linewidth]{img/ass1_Mistakes_Method2_BoF_20260619_180230.png}\hfill
+  \includegraphics[width=0.48\linewidth]{img/ass1_Mistakes_Method2_BoF_20261419_180246.png}
+  \caption{BoF + Non-linear SVM の誤分類例}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\linewidth]{img/ass1_Mistakes_Method2_BoF_20262319_180227.png}
+  \caption{BoF + Non-linear SVM の誤分類例}
+\end{figure}
+
+Bag of Features (BoF) と非線形SVMを用いた分類手法における誤分類画像を観察した結果、各データセットにおいて以下のような共通の傾向が確認された。
+\begin{itemize}
+  \item 対象物の色や背景の多様性に関わらず、プードルの細かい巻き毛と、フライドチキンの衣のランダムな凹凸を持つ画像群が誤分類された。また、プードルの画像には「黒くて丸い目や鼻」といった犬特有の明確なパーツが写っているものも多く含まれていたが、正答には至っていなかった。
+  \item 誤分類例には一般的な外観画像だけでなく、バスの「車内画像（座席や窓が並ぶ）」や「ワイヤーフレーム画像」、さらには1枚の画像の中に「複数のピックアップトラックが並んでいるカタログ画像」といった特殊な構図が多数含まれていた。両クラスはタイヤ（円形）や窓枠（直線）、フロントグリルといった車両特有のパーツを共有している。
+  \item 被写体のベースカラー（薄茶色など）が似ていることに加え、チワワの「暗くて丸い目や鼻」と、マフィンの局所的な暗部の斑点を持つ部分、マフィンのテクスチャが誤分類の対象となった。チワワの目鼻は決まった逆三角形の配置を持つが、マフィンの具材はランダムに散らばっていた。
+\end{itemize}
+
+\paragraph{DCNN (ResNet50) + Linear SVM}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\linewidth]{img/ass1_Mistakes_Method3_DCNN_Linear_20262619_180208.png}
+  \caption{DCNN (ResNet50) + Linear SVM の誤分類例}
+\end{figure}
+
+\paragraph{Method3: DCNN (ResNet50) + Linear SVM による分類結果（事実）}
+画像には4枚のサムネイルが配置されている。これらはすべて「バス」に関連する画像であり、誤検出（おそらくトラックとして分類）された。
+
+被写体と構図のバリエーション:
+\begin{itemize}
+  \item 左上: 近未来的でスタイリッシュなデザインの大型バス。夜間の路上で撮影されており、車体は光沢のある黒を基調に赤いアクセントライトが光っている。
+  \item 右上: 巨大な屋内車庫（または整備場）に、多数の路線バスが隙間なく並んで停まっている広角写真。天井の配管や鉄骨が目立つ。
+  \item 下段（左右共通）: 木目調の壁や床、クッション、流し台などが配置された、キャンピングカー（あるいはバスの改造車）の「車内空間（インテリア）」の写真。
+\end{itemize}
+
+\paragraph{DCNN (ResNet50) + Non-linear SVM (RBF)}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\linewidth]{img/ass1_Mistakes_Method4_DCNN_RBF_20262619_180216.png}
+  \caption{DCNN (ResNet50) + Non-linear SVM (RBF) の誤分類例}
+\end{figure}
+左側の画像においては、被写体と環境は近未来的で流線型のデザインをした大型車両（バス）。車体は黒やダークグレーを基調とし、フロント下部や側面に赤い発光（アクセントライト）が見られる。背景は夜間の都市の道路で、路面は濡れて反射している状態の画像である。この画像は、先ほどのMethod3（線形SVM）の誤検出画像（左上）と全く同一の画像である。
+右側の画像は、青い背景に白い文字で「2023 GMC SIERRA 1500 ELEVATION COLOURS」と書かれたバナーの下に、色違いのピックアップトラックが3行3列（計9台）のグリッド状に並べられたカタログ調の画像である。トラックの色は黒、タン、赤、青、白、シルバー、緑系など様々。背景は白である。
+
+\subsection{実験結果}
+\subsubsection{実験2 リランキング結果}
+リランキング実施前（Original）と実施後（Reranked）の正誤判定の結果を表に示す。すべての条件において、リランキング後に精度が上昇する結果となった。
+
+\begin{table}[H]
+  \centering
+  \caption{テスト前：各キーワードの正誤数 (Precision @ N)}
+  \label{tab:ass2_counts_before}
+  \begin{tabular}{ccccc}
+    \hline
+    Keyword & $N$ & 正 & 誤 & 精度 \\
+    \hline
+    Apple & 25 & 11 & 89 & 11\% \\
+    Apple & 50 & 11 & 89 & 11\% \\
+    Kiwi  & 25 & 86 & 14 & 86\% \\
+    Kiwi  & 50 & 86 & 14 & 86\% \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{テスト後：各キーワードの正誤数 (Precision @ N)}
+  \label{tab:ass2_counts_after}
+  \begin{tabular}{ccccc}
+    \hline
+    Keyword & $N$ & 正 & 誤 & 精度\\
+    \hline
+    Apple & 25 & 45 & 55 & 45\% \\
+    Apple & 50 & 58 & 42 & 58\% \\
+    Kiwi  & 25 & 100 & 0 & 100\% \\
+    Kiwi  & 50 & 100 & 0 & 100\% \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\paragraph{課題2: ランキング結果の例}
+表\ref{tab:ass2_counts_before}および表\ref{tab:ass2_counts_after}の集計結果に対応するランキング例として，OriginalとRerankedの上位画像例を図\ref{fig:ass2_apple25_compare}--図\ref{fig:ass2_kiwi50_compare}に示す。また，Rerankedで上位に出現した誤分類例を図\ref{fig:ass2_apple25_wrong}および図\ref{fig:ass2_apple50_wrong}に示す。
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.49\linewidth]{img/ass2_origin_apple25.png}\hfill
+  \includegraphics[width=0.49\linewidth]{img/ass2_reranked_apple25.png}
+  \caption{Apple（Top-25）におけるOriginalとRerankedの比較}
+  \label{fig:ass2_apple25_compare}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.32\linewidth]{img/ass2_reranked_apple25_wrong1.png}\hfill
+  \includegraphics[width=0.32\linewidth]{img/ass2_reranked_apple25_wrong2.png}\hfill
+  \includegraphics[width=0.32\linewidth]{img/ass2_reranked_apple25_wrong3.png}
+  \caption{Task 2（Apple, Top-25, Reranked）における誤分類例}
+  \label{fig:ass2_apple25_wrong}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.49\linewidth]{img/ass2_reranked_apple50_wrong1.png}\hfill
+  \includegraphics[width=0.49\linewidth]{img/ass2_reranked_apple50_wrong2.png}
+  \caption{Task 2（Apple, Top-50, Reranked）における誤分類例}
+  \label{fig:ass2_apple50_wrong}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.49\linewidth]{img/ass2_origin_apple50.png}\hfill
+  \includegraphics[width=0.49\linewidth]{img/ass2_reranked_apple50.png}
+  \caption{Apple（Top-50）におけるOriginalとRerankedの比較}
+  \label{fig:ass2_apple50_compare}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.49\linewidth]{img/ass2_origin_kiwi25.png}\hfill
+  \includegraphics[width=0.49\linewidth]{img/ass2_reranked_kiwi25.png}
+  \caption{Kiwi（Top-25）におけるOriginalとRerankedの比較}
+  \label{fig:ass2_kiwi25_compare}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.49\linewidth]{img/ass2_origin_kiwi50.png}\hfill
+  \includegraphics[width=0.49\linewidth]{img/ass2_reranked_kiwi50.png}
+  \caption{Kiwi（Top-50）におけるOriginalとRerankedの比較}
+  \label{fig:ass2_kiwi50_compare}
+\end{figure}
+\section{考察}
+
+\subsection{特徴量による分類性能の比較}
+実験結果（表\ref{tab:ass2_counts_after}等）が示す通り、DCNN特徴量（Method 3, 4）は従来手法（Method 1, 2）と比較して有意に高い分類精度（96\%以上）を達成した。
+
+\paragraph{構造情報の欠如による誤分類}
+Method 1（Color Histogram）は色分布のみに依存するため、プードルと唐揚げのように色相・彩度が類似するクラス間で識別不能となった。また、Method 2（BoF）は局所的なテクスチャ（マフィンの斑点など）を捉えるものの、空間配置情報を保持しないため、バスの窓枠やタイヤといった構造的な特徴を十分に記述できず、DCNNほどの精度には至らなかった。
+
+\paragraph{DCNNの有効性とドメイン依存性}
+ResNet50を用いた転移学習は、背景や姿勢の変動に対して高い頑健性を示した。特に「バス vs トラック」のような形状が類似する人工物においても、細部のパーツ特徴に基づいた高精度な識別が可能であった。
+一方で、Method 3の誤分類例に見られるように、「バスの車内（インテリア）」画像に対しては認識に失敗した。これは学習データの多くが車両の外観（エクステリア）であり、車内風景という異なるドメインの特徴分布に対して決定境界が適合しなかったためである。また、複数の車両が重複する画像では、単一物体の形状特徴が抽出困難となり誤分類の一因となった。
+
+\subsection{Web画像検索リランキングの特性}
+リランキング実験（表\ref{tab:ass2_counts_after}）では、すべての条件においてAP（Average Precision）が向上した。これは、Web検索のTop-$N$画像が持つ視覚的な一貫性をSVMが捉え、ノイズ画像を特徴空間上で分離できたことに起因する。
+
+\paragraph{Top-$N$設定とノイズの影響}
+Appleクラスにおいて、$N=50$ の方が $N=25$ よりも高い精度（58\%）を示した。初期検索の上位25枚に含まれるノイズ（Apple社製品以外の画像）が決定境界に悪影響を与える可能性がある一方、枚数を増やすことで正例のバリエーション（iPhone, ロゴ, 店舗など）が拡充され、汎化性能が向上したと考えられる。この結果は、リランキングの性能が初期検索結果の純度に依存することを示唆しており、教師なし学習アプローチの限界点でもある。
+
+\section{結言}
+本実験では、実環境のWeb画像を用いた物体認識において、DCNN特徴量の優位性と、検索上位画像を教師データとするリランキング手法の有効性を確認した。
+特にリランキングにおいては、人手によるアノテーションコストをかけずに検索精度を改善できる一方で、学習データの質（検索エンジンの初期精度）に依存する特性が明らかとなった。実用システムにおいては、これらの特性を考慮した特徴選択と学習戦略が必要である。
+
+\end{document}
